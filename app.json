@@ -1,0 +1,26 @@
+{
+  "pages": ["pages/index/index", "pages/center/center", "pages/class/class"],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/center/center",
+        "text": "统计",
+        "iconPath": "pages/center/img/t.png",
+        "selectedIconPath": "pages/center/img/thl.png"
+      },
+      {
+        "pagePath": "pages/class/class",
+        "text": "课程",
+        "iconPath": "pages/class/img/c.png",
+        "selectedIconPath": "pages/class/img/chl.png"
+      }
+    ]
+  }
+}
