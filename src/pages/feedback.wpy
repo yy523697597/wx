@@ -1,0 +1,29 @@
+<style lang="less">
+/* pages/center/center.wxss */
+</style>
+<template >
+<!--pages/center/center.wxml-->
+<view class='class' >
+   课程表
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Feedback extends wepy.page {
+  config = {
+    navigationBarTitleText: '课程表'
+  };
+
+  data = {
+    userName: null,
+    classDetail: null
+  };
+  onLoad() {}
+
+  computed = {};
+
+  methods = {};
+}
+</script>

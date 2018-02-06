@@ -1,0 +1,10 @@
+
+ <image src="./img/logo.jpg" class="logo"/>
+  <view class="login-container">
+    <input class="phone" placeholder="请输入您的手机号码" maxlength="11" bindblur="getUserPhone"/>
+    <view class="vali-container">
+      <input class="vali-text" placeholder="请输入验证码" maxlength="6" bindblur="getUserVali"/>
+      <button class="vali-btn " bindtap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+    </view>
+    <button class="login-btn" bindtap="tryLogin">登录</button>
+  </view>

@@ -1,0 +1,5 @@
+
+<!--pages/center/center.wxml-->
+<view class="class">
+   课程表
+</view>
