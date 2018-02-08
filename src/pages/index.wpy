@@ -1,136 +1,137 @@
 <style lang="less">
 .logo {
-  display: block;
-  width: 300rpx;
-  height: 300rpx;
-  margin: 0 auto 20rpx;
+    display: block;
+    width: 300rpx;
+    height: 300rpx;
+    margin: 0 auto 20rpx;
 }
 .phone {
-  width: 600rpx;
-  height: 80rpx;
-  border: 1rpx solid #ccc;
-  border-radius: 10rpx;
-  padding-left: 10rpx;
-  margin: 40rpx auto;
-}
-.vali-container {
-  display: flex;
-  justify-content: space-between;
-  width: 600rpx;
-  height: 80rpx;
-  margin: 0 auto;
-  margin-bottom: 40rpx;
-  .vali-btn {
+    width: 600rpx;
     height: 80rpx;
-    width: 270rpx;
-    line-height: 80rpx;
-    font-size: 32rpx;
-    color: #fff;
-  }
-  .vali-text {
-    width: 300rpx;
-    height: 80rpx;
-    padding-left: 10rpx;
-    margin-right: 20rpx;
     border: 1rpx solid #ccc;
     border-radius: 10rpx;
-  }
+    padding-left: 10rpx;
+    margin: 40rpx auto;
+}
+.vali-container {
+    display: flex;
+    justify-content: space-between;
+    width: 600rpx;
+    height: 80rpx;
+    margin: 0 auto;
+    margin-bottom: 40rpx;
+    .vali-btn {
+        height: 80rpx;
+        width: 270rpx;
+        line-height: 80rpx;
+        font-size: 32rpx;
+        color: #fff;
+    }
+    .vali-text {
+        width: 300rpx;
+        height: 80rpx;
+        padding-left: 10rpx;
+        margin-right: 20rpx;
+        border: 1rpx solid #ccc;
+        border-radius: 10rpx;
+    }
 }
 
 .stop {
-  color: #333;
-  background-color: #d4d4d4;
+    color: #333;
+    background-color: #d4d4d4;
 }
 
 .login-btn {
-  width: 600rpx;
-  color: #fff;
-  background-color: #449d44;
-  height: 80rpx;
-  line-height: 80rpx;
+    width: 600rpx;
+    color: #fff;
+    background-color: #449d44;
+    height: 80rpx;
+    line-height: 80rpx;
 }
 </style>
 <template>
- <image src='./img/logo.jpg' class='logo'></image>
-  <view class='login-container'>
-    <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
-    <view class='vali-container'>
-      <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
-      <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+    <image src='./img/logo.jpg' class='logo'></image>
+    <view class='login-container'>
+        <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
+        <view class='vali-container'>
+            <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
+            <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+        </view>
+        <button class='login-btn' @tap="tryLogin">登录</button>
     </view>
-    <button class='login-btn' @tap="tryLogin">登录</button>
-  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 export default class Index extends wepy.page {
-  config = {
-    navigationBarTitleText: '巧克力梦工厂'
-  };
+    config = {
+        navigationBarTitleText: '巧克力梦工厂'
+    };
 
-  data = {
-    userPhone: null,
-    userVali: null,
-    phone: 18502810881,
-    valiNum: 123456,
-    valiText: '获取验证码',
-    validating: false,
-    valiTime: 60,
-    valiColor: '#337ab7'
-  };
+    data = {
+        userPhone: null,
+        userVali: null,
+        phone: 11111111111,
+        valiNum: 123456,
+        valiText: '获取验证码',
+        validating: false,
+        valiTime: 60,
+        valiColor: '#337ab7'
+    };
 
-  computed = {};
+    computed = {};
 
-  methods = {
-    tryLogin: function() {
-      if (this.userVali.length == 6 && this.userVali == this.valiNum) {
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success',
-          duration: 2000
-        });
-        setTimeout(() => {
-          wx.switchTab({
-            url: `./center?userPhone=${this.userPhone}`
-          });
-        }, 2000);
-      } else {
-        wx.showToast({
-          title: '验证码错误',
-          image: './img/fail.png',
-          duration: 1000
-        });
-      }
-    },
-    getVali: function() {
-      if (!this.validating) {
-        if (this.userPhone.length !== 11) {
-          wx.showToast({
-            title: '手机号错误',
-            image: './img/fail.png',
-            duration: 1000
-          });
-        } else {
-          if (this.phone == this.userPhone) {
-            this.validating = true;
-            this.valiColor = '#ccc';
-            this.valiText = '获取中...';
-          } else {
-            wx.showModal({
-              title: '提示',
-              content: '您还不是我们的会员'
-            });
-          }
+    methods = {
+        tryLogin: function() {
+            if (this.userVali.length == 6 && this.userVali == this.valiNum) {
+                wx.showToast({
+                    title: '登录成功',
+                    icon: 'success',
+                    duration: 2000
+                });
+                setTimeout(() => {
+                    wx.switchTab({
+                        url: `./center?userPhone=${this.userPhone}`
+                    });
+                }, 2000);
+            } else {
+                wx.showToast({
+                    title: '验证码错误',
+                    image: './img/fail.png',
+                    duration: 1000
+                });
+            }
+        },
+        getVali: function() {
+            if (!this.validating) {
+                if (this.userPhone.length !== 11) {
+                    wx.showToast({
+                        title: '手机号错误',
+                        image: './img/fail.png',
+                        duration: 1000
+                    });
+                } else {
+                    if (this.phone == this.userPhone) {
+                        this.validating = true;
+                        this.valiColor = '#ccc';
+                        this.valiText = '获取中...';
+                    } else {
+                        wx.showModal({
+                            title: '提示',
+                            content: '您还不是我们的会员'
+                        });
+                    }
+                }
+            }
+        },
+        getUserPhone(e) {
+            this.userPhone = e.detail.value;
+            this.$parent.customData.phone = e.detail.value;
+        },
+        getUserVali(e) {
+            this.userVali = e.detail.value;
         }
-      }
-    },
-    getUserPhone(e) {
-      this.userPhone = e.detail.value;
-    },
-    getUserVali(e) {
-      this.userVali = e.detail.value;
-    }
-  };
+    };
 }
 </script>

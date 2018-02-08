@@ -1,0 +1,7 @@
+
+    <view class="detail">
+        <view class="username">{{userName}}同学</view>
+        <view class="time">{{day}}-{{week}}</view>
+        <view class="class-name">{{className}}</view>
+        <view class="pause" bindtap="pause" style="background-color:{{btnBgColor}}">{{btnText}}</view>
+    </view>

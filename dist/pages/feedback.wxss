@@ -1,0 +1,1 @@
+.feedback .text{width:560rpx;margin:0 auto;min-height:300rpx;margin-bottom:20rpx;margin-top:40rpx;border:1px solid #ccc;padding:20rpx;border-radius:10rpx}.feedback .btn{width:600rpx;margin:0 auto;text-align:center;height:80rpx;line-height:80rpx;background-color:#337ab7;color:#fff;border-radius:10rpx}

@@ -1,17 +1,17 @@
 
-<view class="class">
-   <view class="calender-container"  wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo">
-    <view class="month">
-      {{classInfo.month}}   >
-    </view>
-    <view class="detail-container" wx:for="{{classInfo.detail}}">
-      <view class="time-container">
-        <view class="day">{{item.day}}</view> 
-        <view class="week">{{item.week}}</view>               
+  <view class="class">
+    <view class="schedule-container"  wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo">
+      <view class="month" data-month="{{classInfo.month}}">
+        {{classInfo.month}} >
       </view>
-      <view class="class-name-container">
-        <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.bgColor}}">{{class.className}}</view> 
+      <view class="detail-container" wx:for="{{classInfo.detail}}">
+        <view class="time-container">
+          <view class="day">{{item.day}}</view>
+          <view class="week">{{item.week}}</view>
+        </view>
+        <view class="class-name-container">
+          <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.bgColor}}" data-classid="{{class.classId}}" data-day="{{classInfo.month+item.day+'日'}}" data-week="{{item.week}}" data-name="{{class.className}}" catchtap="selectClass">{{class.className}}</view>
+        </view>
       </view>
     </view>
-   </view>
-</view>
+  </view>

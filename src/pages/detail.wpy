@@ -1,0 +1,78 @@
+<style lang="less">
+/* pages/center/center.wxss */
+.detail {
+    position: relative;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    view {
+        margin: 20rpx 0;
+    }
+    .pause {
+        position: absolute;
+        height: 100rpx;
+        line-height: 100rpx;
+        bottom: 0;
+        left: 0;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+<template >
+    <view class="detail">
+        <view class="username">{{userName}}同学</view>
+        <view class="time">{{day}}-{{week}}</view>
+        <view class="class-name">{{className}}</view>
+        <view class="pause" @tap="pause" style="background-color:{{btnBgColor}}">{{btnText}}</view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Detail extends wepy.page {
+    config = {
+        navigationBarTitleText: '请假'
+    };
+
+    data = {
+        userName: '',
+        day: null,
+        week: null,
+        className: null,
+        classId: null,
+        btnText: '请假',
+        btnBgColor: null
+    };
+    onLoad(option) {
+        this.userName = this.$parent.customData.userName;
+        this.day = option.day;
+        this.className = option.name;
+        this.week = option.week;
+        this.classId = option.classId;
+        this.btnBgColor = 'rgb(250,140,10)';
+        this.$apply();
+    }
+    computed = {};
+    methods = {
+        pause() {
+            const that = this;
+            wx.showModal({
+                title: '提示',
+                content: '您确定这节课要请假吗?',
+                success(res) {
+                    if (res.confirm) {
+                        that.setData({
+                            btnText: '已请假',
+                            btnBgColor: 'pink'
+                        });
+                    } else if (res.cancel) {
+                    }
+                }
+            });
+        }
+    };
+}
+</script>

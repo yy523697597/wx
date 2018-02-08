@@ -1,29 +1,70 @@
 <style lang="less">
 /* pages/center/center.wxss */
+.feedback {
+    .text {
+        width: 560rpx;
+        margin: 0 auto;
+        min-height: 300rpx;
+        margin-bottom: 20rpx;
+        margin-top: 40rpx;
+        border: 1px solid #ccc;
+        padding: 20rpx;
+        border-radius: 10rpx;
+    }
+    .btn {
+        width: 600rpx;
+        margin: 0 auto;
+        text-align: center;
+        height: 80rpx;
+        line-height: 80rpx;
+        background-color: #337ab7;
+        color: #fff;
+        border-radius: 10rpx;
+    }
+}
 </style>
 <template >
-<!--pages/center/center.wxml-->
-<view class='class' >
-   课程表
-</view>
+  <!--pages/center/center.wxml-->
+  <view class='feedback'>
+    <textarea class="text" bindblur="bindTextAreaBlur" auto-height placeholder="请输入您的反馈" />
+    <view class="btn" @tap="commit">提交</view>
+  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 
 export default class Feedback extends wepy.page {
-  config = {
-    navigationBarTitleText: '课程表'
-  };
+    config = {
+        navigationBarTitleText: '家长反馈'
+    };
 
-  data = {
-    userName: null,
-    classDetail: null
-  };
-  onLoad() {}
+    data = {
+        userName: null,
+        classDetail: null
+    };
+    onLoad() {}
 
-  computed = {};
+    computed = {};
 
-  methods = {};
+    methods = {
+        commit() {
+            wx.showModal({
+                title: '提示',
+                content: '是否要提交您的反馈',
+                success(res) {
+                    if (res.confirm) {
+                        console.log('已经提交数据');
+                        wx.showToast({
+                            title: '成功',
+                            icon: 'success',
+                            duration: 2000
+                        });
+                    } else if (res.cancel) {
+                    }
+                }
+            });
+        }
+    };
 }
 </script>

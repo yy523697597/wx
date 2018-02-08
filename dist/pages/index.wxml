@@ -1,5 +1,5 @@
 
- <image src="./img/logo.jpg" class="logo"/>
+  <image src="./img/logo.jpg" class="logo"/>
   <view class="login-container">
     <input class="phone" placeholder="请输入您的手机号码" maxlength="11" bindblur="getUserPhone"/>
     <view class="vali-container">

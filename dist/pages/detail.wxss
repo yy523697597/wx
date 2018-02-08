@@ -1,0 +1,1 @@
+.detail{position:relative;text-align:center;width:100vw;height:100vh}.detail view{margin:20rpx 0}.detail .pause{position:absolute;height:100rpx;line-height:100rpx;bottom:0;left:0;color:#fff;width:100%;text-align:center}

@@ -1,5 +1,17 @@
 
-<!--pages/center/center.wxml-->
-<view class="class">
-   课程表
-</view>
+  <view class="class">
+    <view class="schedule-container"  wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo">
+      <view class="month" data-month="{{classInfo.month}}">
+        {{classInfo.month}} >
+      </view>
+      <view class="detail-container" wx:for="{{classInfo.detail}}">
+        <view class="time-container">
+          <view class="day">{{item.day}}</view>
+          <view class="week">{{item.week}}</view>
+        </view>
+        <view class="class-name-container">
+          <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.bgColor}}" data-classid="{{class.classId}}" catchtap="selectClass">{{class.className}}</view>
+        </view>
+      </view>
+    </view>
+  </view>

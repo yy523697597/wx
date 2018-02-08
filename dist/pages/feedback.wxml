@@ -1,5 +1,6 @@
 
-<!--pages/center/center.wxml-->
-<view class="class">
-   课程表
-</view>
+  <!--pages/center/center.wxml-->
+  <view class="feedback">
+    <textarea class="text" bindblur="bindTextAreaBlur" auto-height placeholder="请输入您的反馈"/>
+    <view class="btn" bindtap="commit">提交</view>
+  </view>
