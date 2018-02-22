@@ -1,2 +1,4 @@
 
-    <view class="_5eedf43">d</view>
+    <view class="title _5eedf43">请选择您要查看的学生</view>
+
+    <view bindtap="selectStudent" class="name _5eedf43"  wx:for="{{students}}" data-wpyselectstudent-a="{{index}}">{{item.studentName}}</view>

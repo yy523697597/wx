@@ -1,9 +1,54 @@
 <style lang="less" scoped>
-
+.title {
+    text-align: center;
+    font-size: 34rpx;
+    font-weight: bold;
+    margin-top: 120rpx;
+}
+.name {
+    width: 200rpx;
+    height: 80rpx;
+    border: 1px solid #ccc;
+    border-radius: 10rpx;
+    margin: 60rpx auto;
+    text-align: center;
+    line-height: 80rpx;
+    font-size: 28rpx;
+}
 </style>
 <template>
-    <view>d</view>
+    <view class="title">请选择您要查看的学生</view>
+
+    <view @tap="selectStudent({{index}})" class="name" wx:for="{{students}}">{{item.studentName}}</view>
+
 </template>
 <script>
-export default {};
+import wepy from 'wepy';
+
+export default class SelectStudent extends wepy.page {
+    config = {
+        navigationBarTitleText: '选择学生'
+    };
+    data = {
+        students: [
+            {
+                studentId: 123245,
+                studentName: '小帅'
+            },
+            {
+                studentId: 123246,
+                studentName: '王小虎'
+            }
+        ]
+    };
+    methods = {
+        selectStudent(index) {
+            const studentId = this.students[index].studentId;
+            wx.switchTab({
+                url: `./center?studentId=${studentId}`
+            });
+            console.log(studentId);
+        }
+    };
+}
 </script>
