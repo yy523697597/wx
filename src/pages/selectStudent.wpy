@@ -1,0 +1,9 @@
+<style lang="less" scoped>
+
+</style>
+<template>
+    <view>d</view>
+</template>
+<script>
+export default {};
+</script>

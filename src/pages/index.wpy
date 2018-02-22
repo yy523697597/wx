@@ -108,6 +108,7 @@ export default class Index extends wepy.page {
                 if (this.userPhone.length !== 11) {
                     wx.showToast({
                         title: '手机号错误',
+
                         image: './img/fail.png',
                         duration: 1000
                     });

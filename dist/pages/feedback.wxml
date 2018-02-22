@@ -1,6 +1,9 @@
 
-  <!--pages/center/center.wxml-->
-  <view class="feedback">
-    <textarea class="text" bindblur="bindTextAreaBlur" auto-height placeholder="请输入您的反馈"/>
-    <view class="btn" bindtap="commit">提交</view>
-  </view>
+    <!--pages/center/center.wxml-->
+    <view class="feedback">
+
+        <form bindsubmit="bindFormSubmit">
+            <textarea name="textarea" bindinput="bindTextAreaChange" class="text" value="{{info}}" auto-height placeholder="请输入您的反馈"/>
+            <button class="btn" form-type="submit">提交</button>
+        </form>
+    </view>

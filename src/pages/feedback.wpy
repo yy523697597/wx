@@ -24,11 +24,14 @@
 }
 </style>
 <template >
-  <!--pages/center/center.wxml-->
-  <view class='feedback'>
-    <textarea class="text" bindblur="bindTextAreaBlur" auto-height placeholder="请输入您的反馈" />
-    <view class="btn" @tap="commit">提交</view>
-  </view>
+    <!--pages/center/center.wxml-->
+    <view class='feedback'>
+
+        <form @submit="bindFormSubmit">
+            <textarea name="textarea" @input="bindTextAreaChange" class="text" value="{{info}}" auto-height placeholder="请输入您的反馈" />
+            <button class="btn" form-type="submit">提交</button>
+        </form>
+    </view>
 </template>
 
 <script>
@@ -41,29 +44,48 @@ export default class Feedback extends wepy.page {
 
     data = {
         userName: null,
-        classDetail: null
+        classDetail: null,
+        info: '',
+        noteMaxLen: 7000
     };
     onLoad() {}
 
     computed = {};
 
     methods = {
-        commit() {
-            wx.showModal({
-                title: '提示',
-                content: '是否要提交您的反馈',
-                success(res) {
-                    if (res.confirm) {
-                        console.log('已经提交数据');
-                        wx.showToast({
-                            title: '成功',
-                            icon: 'success',
-                            duration: 2000
-                        });
-                    } else if (res.cancel) {
+        bindTextAreaChange(e) {
+            this.info = e.detail.value;
+        },
+        bindFormSubmit(e) {
+            const that = this;
+            if (!this.info) {
+                wx.showModal({
+                    title: '提示',
+                    content: '反馈不能为空哟',
+                    success(res) {
+                        if (res.confirm) {
+                        } else if (res.cancel) {
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                wx.showModal({
+                    title: '提示',
+                    content: '是否要提交您的反馈',
+                    success(res) {
+                        if (res.confirm) {
+                            that.info = '';
+                            that.$apply();
+                            wx.showToast({
+                                title: '成功',
+                                icon: 'success',
+                                duration: 2000
+                            });
+                        } else if (res.cancel) {
+                        }
+                    }
+                });
+            }
         }
     };
 }
