@@ -240,27 +240,38 @@ export default class ClassDetail extends wepy.page {
     methods = {
         selectClass(monthIndex, dayIndex, classIndex) {
             const that = this;
-            wx.showModal({
-                title: '提示',
-                content: '确定要请假吗',
-                success(res) {
-                    if (res.confirm) {
-                        wx.showToast({
-                            title: '请假成功',
-                            icon: 'success',
-                            duration: 1000
-                        });
+            let leave =
+                that.allClass[monthIndex].detail[dayIndex].class[classIndex]
+                    .leave;
+            if (leave !== '已请假') {
+                wx.showModal({
+                    title: '提示',
+                    content: '确定要请假吗',
+                    success(res) {
+                        if (res.confirm) {
+                            wx.showToast({
+                                title: '请假成功',
+                                icon: 'success',
+                                duration: 1000
+                            });
 
-                        that.allClass[monthIndex].detail[dayIndex].class[
-                            classIndex
-                        ].leave =
-                            '已请假';
-                        that.$apply();
-                    } else if (res.cancel) {
-                        console.log('用户点击取消');
+                            that.allClass[monthIndex].detail[dayIndex].class[
+                                classIndex
+                            ].leave =
+                                '已请假';
+                            that.$apply();
+                        } else if (res.cancel) {
+                            console.log('用户点击取消');
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                wx.showToast({
+                    title: '您已经请过假了',
+                    image: './img/fail.png',
+                    duration: 1000
+                });
+            }
         }
     };
 }

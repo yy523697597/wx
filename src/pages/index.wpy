@@ -49,16 +49,53 @@
     height: 80rpx;
     line-height: 80rpx;
 }
+.tabbar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100vw;
+    height: 80rpx;
+    line-height: 80rpx;
+
+    view {
+        flex: 1;
+        text-align: center;
+        background-color: rgb(246, 246, 246);
+        border-top: 1rpx solid #ccc;
+        font-size: 28rpx;
+    }
+    .active {
+        color: green;
+    }
+}
+.index-img {
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+}
+.index-contianer {
+    padding-bottom: 100rpx;
+}
 </style>
 <template>
-    <image src='./img/logo.jpg' class='logo'></image>
-    <view class='login-container'>
-        <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
-        <view class='vali-container'>
-            <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
-            <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+    <view wx:if="{{!loginShow}}" class="index-contianer">
+        <image src='{{item}}' mode="widthFix" class='index-img' wx:for="{{indexImages}}"></image>
+    </view>
+    <view wx:if="{{loginShow}}">
+        <image src='./img/logo.jpg' class='logo'></image>
+        <view class='login-container'>
+            <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
+            <view class='vali-container'>
+                <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
+                <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+            </view>
+            <button class='login-btn' @tap="tryLogin">登录</button>
         </view>
-        <button class='login-btn' @tap="tryLogin">登录</button>
+    </view>
+    <view class="tabbar">
+        <view @tap="showIndex" class="index" class="{{loginShow!==true?'active':''}}">首页</view>
+        <view @tap="showLogin" class="login" class="{{loginShow===true?'active':''}}">登录</view>
     </view>
 </template>
 
@@ -77,12 +114,27 @@ export default class Index extends wepy.page {
         valiText: '获取验证码',
         validating: false,
         valiTime: 60,
-        valiColor: '#337ab7'
+        valiColor: '#337ab7',
+        loginShow: false,
+        indexImages: [
+            './img/logo.jpg',
+            './img/logo.jpg',
+            './img/logo.jpg',
+            './img/logo.jpg',
+            './img/logo.jpg',
+            './img/logo.jpg'
+        ]
     };
 
     computed = {};
 
     methods = {
+        showIndex() {
+            this.loginShow = false;
+        },
+        showLogin() {
+            this.loginShow = true;
+        },
         tryLogin: function() {
             if (this.userVali.length == 6 && this.userVali == this.valiNum) {
                 wx.showToast({
