@@ -109,7 +109,7 @@ export default class Index extends wepy.page {
     data = {
         userPhone: null,
         userVali: null,
-        phone: 11111111111,
+        phone: 18502810881,
         valiNum: 123456,
         valiText: '获取验证码',
         validating: false,
@@ -136,17 +136,75 @@ export default class Index extends wepy.page {
             this.loginShow = true;
         },
         tryLogin: function() {
-            if (this.userVali.length == 6 && this.userVali == this.valiNum) {
+            if (this.userPhone.length !== 11) {
                 wx.showToast({
-                    title: '登录成功',
-                    icon: 'success',
-                    duration: 2000
+                    title: '手机号错误',
+                    image: './img/fail.png',
+                    duration: 1000
                 });
-                setTimeout(() => {
-                    wx.switchTab({
-                        url: `./center?userPhone=${this.userPhone}`
-                    });
-                }, 2000);
+                return;
+            }
+            if (this.userVali.length == 6) {
+                // 获取验证码
+                wx.request({
+                    url: 'https://back.yuiyu.cn/wx/login/verify',
+                    data: {
+                        phone: this.userPhone,
+                        code: this.userVali
+                    },
+                    method: 'POST',
+                    success: function(res) {
+                        console.log(res.data);
+                        if (res.data.ok) {
+                            wx.showToast({
+                                title: '登录成功',
+                                icon: 'success',
+                                duration: 1000
+                            });
+                            wx.setStorageSync(
+                                'sessionId',
+                                res.header['Set-Cookie']
+                            );
+                            const students = res.data.students;
+                            if (students.length === 1) {
+                                setTimeout(() => {
+                                    wx.setStorageSync(
+                                        'studentId',
+                                        students[0].id
+                                    );
+                                    wx.switchTab({
+                                        url: './center'
+                                    });
+                                }, 1000);
+                            } else {
+                                setTimeout(() => {
+                                    wx.redirectTo({
+                                        url: `./selectStudent?students=${JSON.stringify(
+                                            students
+                                        )}`
+                                    });
+                                }, 1000);
+                            }
+                        } else {
+                            wx.showToast({
+                                title: '登录失败',
+                                image: './img/fail.png',
+                                duration: 1000
+                            });
+                        }
+                    }
+                });
+
+                // wx.showToast({
+                //     title: '登录成功',
+                //     icon: 'success',
+                //     duration: 2000
+                // });
+                // setTimeout(() => {
+                //     wx.switchTab({
+                //         url: `./center?userPhone=${this.userPhone}`
+                //     });
+                // }, 2000);
             } else {
                 wx.showToast({
                     title: '验证码错误',
@@ -169,6 +227,17 @@ export default class Index extends wepy.page {
                         this.validating = true;
                         this.valiColor = '#ccc';
                         this.valiText = '获取中...';
+
+                        // 获取验证码
+                        wx.request({
+                            url: 'https://back.yuiyu.cn/wx/login/code',
+                            data: {
+                                phone: this.userPhone
+                            },
+                            success: function(res) {
+                                console.log(res.data);
+                            }
+                        });
                     } else {
                         wx.showModal({
                             title: '提示',

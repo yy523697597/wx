@@ -49,5 +49,28 @@ export default class extends wepy.app {
         phone: 11111111111,
         userName: 'Yui'
     };
+    onLaunch() {
+        console.log(156);
+        wx.login({
+            success: function(res) {
+                if (res.code) {
+                    wx.request({
+                        url: 'https://back.yuiyu.cn/wx/login/getOpenid',
+                        data: {
+                            code: res.code
+                        },
+                        success: function(res) {
+                            console.log(res.data);
+                            if (res.data.ok) {
+                                wx.setStorageSync('openid', res.data.openid);
+                            }
+                        }
+                    });
+                } else {
+                    console.log('获取用户登录态失败！' + res.errMsg);
+                }
+            }
+        });
+    }
 }
 </script>

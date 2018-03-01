@@ -74,12 +74,26 @@ export default class Feedback extends wepy.page {
                     content: '是否要提交您的反馈',
                     success(res) {
                         if (res.confirm) {
-                            that.info = '';
-                            that.$apply();
-                            wx.showToast({
-                                title: '成功',
-                                icon: 'success',
-                                duration: 2000
+                            console.log(header);
+                            const openid = wx.getStorageSync('openid');
+                            wx.request({
+                                url: 'https://back.yuiyu.cn/wx/feedback/add',
+                                data: {
+                                    studentId: wx.getStorageSync('studentId'), //学生id
+                                    content: that.info, //反馈内容,
+                                    openid: openid
+                                },
+                                method: 'POST',
+                                success: function(res) {
+                                    console.log(res.data);
+                                    that.info = '';
+                                    that.$apply();
+                                    wx.showToast({
+                                        title: '成功',
+                                        icon: 'success',
+                                        duration: 2000
+                                    });
+                                }
                             });
                         } else if (res.cancel) {
                         }

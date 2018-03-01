@@ -2,102 +2,102 @@
 /* pages/center/center.wxss */
 .total,
 .detail-title {
-  font-weight: bold;
-  text-align: center;
-  margin: 20rpx auto 0;
-  display: block;
-  font-size: 40rpx;
+    font-weight: bold;
+    text-align: center;
+    margin: 20rpx auto 0;
+    display: block;
+    font-size: 40rpx;
 }
 .pie-container,
 .pie {
-  width: 700rpx;
-  height: 500rpx;
-  margin: 0 auto;
+    width: 700rpx;
+    height: 500rpx;
+    margin: 0 auto;
 }
 .detail-container {
-  width: 500rpx;
-  margin: 40rpx auto;
+    width: 500rpx;
+    margin: 40rpx auto;
 }
 .detail-container .title {
-  font-size: 32rpx;
+    font-size: 32rpx;
 }
 .all {
-  height: 60rpx;
-  /* border: 1px solid #ccc; */
+    height: 60rpx;
+    /* border: 1px solid #ccc; */
 
-  display: flex;
-  line-height: 60rpx;
-  font-size: 24rpx;
+    display: flex;
+    line-height: 60rpx;
+    font-size: 24rpx;
 }
 .used {
-  width: 30%;
-  transition: all 2s;
-  text-align: right;
+    width: 30%;
+    transition: all 2s;
+    text-align: right;
 }
 .used text {
-  margin-right: -80rpx;
+    margin-right: -80rpx;
 }
 .avaliable text {
-  margin-left: -84rpx;
+    margin-left: -84rpx;
 }
 .avaliable {
-  width: 70%;
-  transition: all 2s;
-  text-align: left;
+    width: 70%;
+    transition: all 2s;
+    text-align: left;
 }
 .title {
-  text-align: center;
-  margin-bottom: 10rpx;
+    text-align: center;
+    margin-bottom: 10rpx;
 }
 .color-flag {
-  display: flex;
-  margin: 20rpx auto;
-  width: 350rpx;
+    display: flex;
+    margin: 20rpx auto;
+    width: 350rpx;
 }
 .avaliable-color,
 .used-color {
-  height: 20rpx;
-  font-size: 20rpx;
-  display: flex;
-  vertical-align: top;
-  margin-right: 40rpx;
+    height: 20rpx;
+    font-size: 20rpx;
+    display: flex;
+    vertical-align: top;
+    margin-right: 40rpx;
 }
 .color-flag .color {
-  margin-right: 10rpx;
-  width: 40rpx;
-  height: 20rpx;
+    margin-right: 10rpx;
+    width: 40rpx;
+    height: 20rpx;
 }
 </style>
 <template >
-<!--pages/center/center.wxml-->
-<view class='center' wx:if="{{userClass.length>0}}">
+  <!--pages/center/center.wxml-->
+  <view class='center' wx:if="{{userClass.length>0}}">
     <text class="total">课程总览</text>
     <view class="pie-container">
-        <canvas canvas-id="pie" class="pie"></canvas>
+      <canvas canvas-id="pie" class="pie"></canvas>
     </view>
     <text class="detail-title">课程详情</text>
     <view class="detail-container" wx:for="{{userClass}}" wx:key="index">
-        <view class="title">{{item.title}}---共{{item.total}}课时</view>
-        <view class="all">
-            <view class="avaliable" style="background-color:{{item.avaColor}};width:{{(item.avaliable/item.total)*100}}%">
-                <text>{{item.avaliable}}课时</text>
-            </view>
-            <view class="used " style="background-color:{{item.usedColor}} ;width:{{(item.used/item.total)*100}}%">
-                <text>{{item.used}}课时</text>
-            </view>
+      <view class="title">{{item.title}}---共{{item.total}}课时</view>
+      <view class="all">
+        <view class="avaliable" style="background-color:{{item.avaColor}};width:{{(item.avaliable/item.total)*100}}%">
+          <text>{{item.avaliable}}课时</text>
         </view>
-        <view class="color-flag ">
-            <view class="avaliable-color ">
-                <view class="color " style="background-color:{{item.avaColor}} "></view>
-                <text>待用课时</text>
-            </view>
-            <view class="used-color ">
-                <view class="color " style="background-color:{{item.usedColor}} "></view>
-                <text>已用课时</text>
-            </view>
+        <view class="used " style="background-color:{{item.usedColor}} ;width:{{(item.used/item.total)*100}}%">
+          <text>{{item.used}}课时</text>
         </view>
+      </view>
+      <view class="color-flag ">
+        <view class="avaliable-color ">
+          <view class="color " style="background-color:{{item.avaColor}} "></view>
+          <text>待用课时</text>
+        </view>
+        <view class="used-color ">
+          <view class="color " style="background-color:{{item.usedColor}} "></view>
+          <text>已用课时</text>
+        </view>
+      </view>
     </view>
-</view>
+  </view>
 </template>
 
 <script>
@@ -105,96 +105,99 @@ import wepy from 'wepy';
 import wxCharts from '../lib/wxcharts.js';
 
 export default class Center extends wepy.page {
-  config = {
-    navigationBarTitleText: '课程总览'
-  };
+    config = {
+        navigationBarTitleText: '课程总览'
+    };
 
-  data = {
-    userName: null,
-    userClass: null
-  };
-  onLoad() {
-    wx.showLoading({
-      title: '正在加载中...',
-      mask: true
-    });
-    setTimeout(() => {
-      wx.hideLoading();
-      this.userName = 'Yui';
-      this.userClass = [
-        {
-          title: '领袖口才计划',
-          total: 16,
-          used: 9,
-          avaliable: 7,
-          usedColor: '#ffa39e',
-          avaColor: '#b7eb8f'
-        },
-        {
-          title: '主持大赛',
-          total: 16,
-          used: 4,
-          avaliable: 12,
-          usedColor: '#fffb8f',
-          avaColor: '#b7eb8f'
-        },
-        {
-          title: '形体班',
-          total: 16,
-          used: 6,
-          avaliable: 10,
-          usedColor: '#adc6ff',
-          avaColor: '#b7eb8f'
-        },
-        {
-          title: '舞台剧',
-          total: 16,
-          used: 12,
-          avaliable: 4,
-          usedColor: '#d3adf7',
-          avaColor: '#b7eb8f'
-        }
-      ];
-      // 异步调用必须使用apply进行数据刷新
-      this.$apply();
+    data = {
+        userName: null,
+        userClass: null
+    };
+    onLoad(options) {
+        // 获取学生id
+        const studentId = wx.getStorageSync('studentId');
 
-      wx.setNavigationBarTitle({
-        title: `${this.userName}同学课程总览`
-      });
+        wx.showLoading({
+            title: '正在加载中...',
+            mask: true
+        });
+        setTimeout(() => {
+            wx.hideLoading();
+            this.userName = 'Yui';
+            this.userClass = [
+                {
+                    title: '领袖口才计划',
+                    total: 16,
+                    used: 9,
+                    avaliable: 7,
+                    usedColor: '#ffa39e',
+                    avaColor: '#b7eb8f'
+                },
+                {
+                    title: '主持大赛',
+                    total: 16,
+                    used: 4,
+                    avaliable: 12,
+                    usedColor: '#fffb8f',
+                    avaColor: '#b7eb8f'
+                },
+                {
+                    title: '形体班',
+                    total: 16,
+                    used: 6,
+                    avaliable: 10,
+                    usedColor: '#adc6ff',
+                    avaColor: '#b7eb8f'
+                },
+                {
+                    title: '舞台剧',
+                    total: 16,
+                    used: 12,
+                    avaliable: 4,
+                    usedColor: '#d3adf7',
+                    avaColor: '#b7eb8f'
+                }
+            ];
+            // 异步调用必须使用apply进行数据刷新
+            this.$apply();
 
-      this.drawChart();
-    }, 2000);
-  }
-  // 绘制饼图
-  drawChart() {
-    new wxCharts({
-      canvasId: 'pie',
-      type: 'pie',
-      series: [
-        {
-          name: '已用课时',
-          data: 50,
-          color: 'rgb(255,163,158)',
-          format: function() {
-            return `已用${this.data}课时`;
-          }
-        },
-        {
-          name: '待用课时',
-          data: 14,
-          color: 'rgb(149,222,100)',
-          format: function() {
-            return `待用${this.data}课时`;
-          }
-        }
-      ],
-      width: 350,
-      height: 250,
-      dataLabel: true
-    });
-  }
-  computed = {};
+            wx.setNavigationBarTitle({
+                title: `${this.userName}同学课程总览`
+            });
 
-  methods = {};
+            this.drawChart();
+        }, 2000);
+    }
+    // 绘制饼图
+    drawChart() {
+        new wxCharts({
+            canvasId: 'pie',
+            type: 'pie',
+            series: [
+                {
+                    name: '已用课时',
+                    data: 50,
+                    color: 'rgb(255,163,158)',
+                    format: function() {
+                        return `已用${this.data}课时`;
+                    }
+                },
+                {
+                    name: '待用课时',
+                    data: 14,
+                    color: 'rgb(149,222,100)',
+                    format: function() {
+                        return `待用${this.data}课时`;
+                    }
+                }
+            ],
+            width: 350,
+            height: 250,
+            dataLabel: true
+        });
+    }
+    computed = {};
+
+    methods = {};
 }
 </script>
