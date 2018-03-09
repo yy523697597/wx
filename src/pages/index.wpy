@@ -219,7 +219,7 @@ export default class Index extends wepy.page {
       } else {
         const that = this;
         that.valiColor = '#ccc';
-        that.valiText = '获取中...';
+        that.valiText = '已发送';
         wx.request({
           url: 'https://back.yuiyu.cn/wx/login/code',
           data: {
