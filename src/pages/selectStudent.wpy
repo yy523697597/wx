@@ -43,11 +43,10 @@ export default class SelectStudent extends wepy.page {
     }
     methods = {
         selectStudent(index) {
-            const studentId = this.students[index].studentId;
+            wx.setStorageSync('student', this.students[index]);
             wx.switchTab({
-                url: `./center?studentId=${studentId}`
+                url: './center'
             });
-            console.log(studentId);
         }
     };
 }
