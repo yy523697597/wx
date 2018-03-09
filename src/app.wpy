@@ -1,13 +1,13 @@
 <style lang="less">
 .title {
-    display: block;
-    text-align: center;
-    margin: 60rpx 0 20rpx;
+  display: block;
+  text-align: center;
+  margin: 60rpx 0 20rpx;
 }
 .his-item {
-    width: 80%;
-    margin: 20rpx auto;
-    font-size: 28rpx;
+  width: 80%;
+  margin: 20rpx auto;
+  font-size: 28rpx;
 }
 </style>
 
@@ -15,70 +15,70 @@
 import wepy from 'wepy';
 
 export default class extends wepy.app {
-    config = {
-        pages: [
-            'pages/index',
-            'pages/feedback',
-            'pages/class',
-            'pages/center',
-            'pages/selectStudent',
-            'pages/calendar',
-            'pages/detail'
-        ],
-        window: {
-            backgroundTextStyle: 'light',
-            navigationBarBackgroundColor: '#fff',
-            navigationBarTitleText: 'WeChat',
-            navigationBarTextStyle: 'black'
+  config = {
+    pages: [
+      'pages/class',
+      'pages/index',
+      'pages/feedback',
+      'pages/center',
+      'pages/selectStudent',
+      'pages/calendar',
+      'pages/detail'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      list: [
+        {
+          pagePath: 'pages/center',
+          text: '统计',
+          iconPath: 'pages/img/t.png',
+          selectedIconPath: 'pages/img/thl.png'
         },
-        tabBar: {
-            list: [
-                {
-                    pagePath: 'pages/center',
-                    text: '统计',
-                    iconPath: 'pages/img/t.png',
-                    selectedIconPath: 'pages/img/thl.png'
-                },
-                {
-                    pagePath: 'pages/class',
-                    text: '课程',
-                    iconPath: 'pages/img/c.png',
-                    selectedIconPath: 'pages/img/chl.png'
-                },
-                {
-                    pagePath: 'pages/feedback',
-                    text: '反馈',
-                    iconPath: 'pages/img/f.png',
-                    selectedIconPath: 'pages/img/fhl.png'
-                }
-            ]
+        {
+          pagePath: 'pages/class',
+          text: '课程',
+          iconPath: 'pages/img/c.png',
+          selectedIconPath: 'pages/img/chl.png'
+        },
+        {
+          pagePath: 'pages/feedback',
+          text: '反馈',
+          iconPath: 'pages/img/f.png',
+          selectedIconPath: 'pages/img/fhl.png'
         }
-    };
-    customData = {
-        phone: 11111111111,
-        userName: 'Yui'
-    };
-    onLaunch() {
-        wx.login({
-            success: function(res) {
-                if (res.code) {
-                    wx.request({
-                        url: 'https://back.yuiyu.cn/wx/login/getOpenid',
-                        data: {
-                            code: res.code
-                        },
-                        success: function(res) {
-                            console.log('成功获取openId');
-                            if (res.data.ok) {
-                                wx.setStorageSync('openid', res.data.openid);
-                            }
-                        }
-                    });
-                } else {
-                    console.log('获取用户登录态失败！' + res.errMsg);
-                }
-            }
-        });
+      ]
     }
+  };
+  customData = {
+    phone: 11111111111,
+    userName: 'Yui'
+  };
+  onLaunch() {
+    wx.login({
+      success: function(res) {
+        if (res.code) {
+          wx.request({
+            url: 'https://back.yuiyu.cn/wx/login/getOpenid',
+            data: {
+              code: res.code
+            },
+            success: function(res) {
+              console.log('成功获取openId');
+              if (res.data.ok) {
+                wx.setStorageSync('openid', res.data.openid);
+              }
+            }
+          });
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg);
+        }
+      }
+    });
+  }
 }
 </script>
