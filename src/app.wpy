@@ -17,8 +17,8 @@ import wepy from 'wepy';
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/class',
       'pages/index',
+      'pages/class',
       'pages/feedback',
       'pages/center',
       'pages/selectStudent',
