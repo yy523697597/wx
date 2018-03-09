@@ -1,20 +1,20 @@
 
     <!--pages/center/center.wxml-->
-    <view class="center"  wx:if="{{userClass.length>0}}">
+    <view class="center">
         <text class="total">课程总览</text>
         <view class="pie-container">
             <canvas canvas-id="pie" class="pie"/>
         </view>
         <text class="detail-title">课程详情</text>
-        <view class="detail-container" wx:for="{{userClass}}" wx:key="index">
-            <view class="title">{{item.title}}---共{{item.total}}课时</view>
+        <view class="detail-container"  wx:for="{{lessons}}" wx:key="index" wx:for-item="item">
+            <view class="title">{{item.lessonName}}---共{{item.num}}课时</view>
             <view class="all">
-                <view class="avaliable" style="background-color:#95de64;width:{{(item.avaliable/item.total)*100}}%">
-                    <text>{{item.avaliable}}课时</text>
+                <text class="time left">{{item.restNum}}课时</text>
+                <view class="avaliable" style="background-color:#95de64;width:{{(item.restNum/item.num)*100}}%">
                 </view>
-                <view class="used " style="background-color:#bfbfbf;width:{{(item.used/item.total)*100}}%">
-                    <text>{{item.used}}课时</text>
+                <view class="used " style="background-color:#bfbfbf;width:{{(item.expendNum/item.num)*100}}%">
                 </view>
+                <text class="time right">{{item.expendNum}}课时</text>
             </view>
             <view class="color-flag ">
                 <view class="avaliable-color ">

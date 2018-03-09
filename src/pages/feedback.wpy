@@ -50,10 +50,10 @@
             <button class="btn" form-type="submit">提交</button>
         </form>
         <text class="title">我的反馈记录</text>
-        <view class="his-item">
-            <view>反馈时间：2018-03-08</view>
-            <view>反馈内容：阿萨德公交卡拿到可能是噶第十六届高考卢卡斯交给你啦的结论是功能啦的结论是公交卡那冬季施工年上半年跟你说高级会计师</view>
-            <view>回复：阿号就快了晚上给好久开金卡戴珊更不可能施工监理那睡到感冒了，地上的啥奖励哦哈等级考试办个卡不是给你冀东水泥估计可能叫啥德古拉当练手估计可能就考试了</view>
+        <view class="his-item" wx:for="{{history}}" wx:for-item="item" wx:key="index" wx:if="{{history.length>0}}">
+            <view>反馈时间：{{item.date}}</view>
+            <view>反馈内容：{{item.content}}</view>
+            <view wx:if="{{item.replyContent}}">回复：{{item.replyContent}}</view>
         </view>
     </view>
 </template>
@@ -70,10 +70,35 @@ export default class Feedback extends wepy.page {
         userName: null,
         classDetail: null,
         info: '',
-        noteMaxLen: 7000
+        noteMaxLen: 7000,
+        history: []
     };
-    onLoad() {}
-
+    onShow() {
+        this.getFeed();
+    }
+    getFeed() {
+        const openid = wx.getStorageSync('openid');
+        const student = wx.getStorageSync('student');
+        const that = this;
+        wx.request({
+            url: 'https://back.yuiyu.cn/wx/feedback/index',
+            data: {
+                // openid: openid,
+                openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA',
+                studentId: student.id
+            },
+            method: 'POST',
+            success: function(res) {
+                console.log(res.data);
+                if (res.data.ok) {
+                    console.log('成功请求反馈历史记录');
+                    that.history = res.data.list;
+                    that.$apply();
+                    console.log(that.history);
+                }
+            }
+        });
+    }
     computed = {};
 
     methods = {
@@ -102,7 +127,7 @@ export default class Feedback extends wepy.page {
                             wx.request({
                                 url: 'https://back.yuiyu.cn/wx/feedback/add',
                                 data: {
-                                    studentId: wx.getStorageSync('studentId'), //学生id
+                                    studentId: wx.getStorageSync('student').id, //学生id
                                     content: that.info, //反馈内容,
                                     openid: openid
                                 },
@@ -116,6 +141,7 @@ export default class Feedback extends wepy.page {
                                         icon: 'success',
                                         duration: 2000
                                     });
+                                    that.getFeed();
                                 }
                             });
                         } else if (res.cancel) {

@@ -15,7 +15,7 @@
     margin: 0 auto;
 }
 .detail-container {
-    width: 500rpx;
+    width: 700rpx;
     margin: 40rpx auto;
 }
 .detail-container .title {
@@ -24,10 +24,24 @@
 .all {
     height: 60rpx;
     /* border: 1px solid #ccc; */
-
+    width: 500rpx;
+    margin: 0 auto;
     display: flex;
     line-height: 60rpx;
     font-size: 24rpx;
+    position: relative;
+    .time {
+        width: 150rpx;
+        position: absolute;
+    }
+    .left {
+        left: -160rpx;
+        text-align: right;
+    }
+    .right {
+        right: -160rpx;
+        text-align: left;
+    }
 }
 .used {
     width: 30%;
@@ -70,21 +84,21 @@
 </style>
 <template >
     <!--pages/center/center.wxml-->
-    <view class='center' wx:if="{{userClass.length>0}}">
+    <view class='center'>
         <text class="total">课程总览</text>
         <view class="pie-container">
             <canvas canvas-id="pie" class="pie"></canvas>
         </view>
         <text class="detail-title">课程详情</text>
-        <view class="detail-container" wx:for="{{userClass}}" wx:key="index">
-            <view class="title">{{item.title}}---共{{item.total}}课时</view>
+        <view class="detail-container" wx:for="{{lessons}}" wx:key="index" wx:for-item="item">
+            <view class="title">{{item.lessonName}}---共{{item.num}}课时</view>
             <view class="all">
-                <view class="avaliable" style="background-color:#95de64;width:{{(item.avaliable/item.total)*100}}%">
-                    <text>{{item.avaliable}}课时</text>
+                <text class="time left">{{item.restNum}}课时</text>
+                <view class="avaliable" style="background-color:#95de64;width:{{(item.restNum/item.num)*100}}%">
                 </view>
-                <view class="used " style="background-color:#bfbfbf;width:{{(item.used/item.total)*100}}%">
-                    <text>{{item.used}}课时</text>
+                <view class="used " style="background-color:#bfbfbf;width:{{(item.expendNum/item.num)*100}}%">
                 </view>
+                <text class="time right">{{item.expendNum}}课时</text>
             </view>
             <view class="color-flag ">
                 <view class="avaliable-color ">
@@ -111,72 +125,49 @@ export default class Center extends wepy.page {
 
     data = {
         userName: null,
-        userClass: null
+        lessons: [],
+        expendNum: null,
+        restNum: null
     };
-    onLoad(options) {
+    onShow(options) {
+        this.getInfo();
+    }
+    getInfo() {
+        const that = this;
         // 获取学生
         const student = wx.getStorageSync('student');
-        console.log(student);
-        wx.showLoading({
-            title: '正在加载中...',
-            mask: true
+        wx.setNavigationBarTitle({
+            title: `${student.name}同学课程总览`
         });
-        setTimeout(() => {
-            wx.hideLoading();
-            this.userName = 'Yui';
-            this.userClass = [
-                {
-                    title: '领袖口才计划',
-                    total: 16,
-                    used: 9,
-                    avaliable: 7,
-                    usedColor: '#bfbfbf',
-                    avaColor: '#95de64'
-                },
-                {
-                    title: '主持大赛',
-                    total: 16,
-                    used: 4,
-                    avaliable: 12,
-                    usedColor: '#bfbfbf',
-                    avaColor: '#95de64'
-                },
-                {
-                    title: '形体班',
-                    total: 16,
-                    used: 6,
-                    avaliable: 10,
-                    usedColor: '#bfbfbf',
-                    avaColor: '#95de64'
-                },
-                {
-                    title: '舞台剧',
-                    total: 16,
-                    used: 12,
-                    avaliable: 4,
-                    usedColor: '#bfbfbf',
-                    avaColor: '#95de64'
-                }
-            ];
-            // 异步调用必须使用apply进行数据刷新
-            this.$apply();
+        const openid = wx.getStorageSync('openid');
 
-            wx.setNavigationBarTitle({
-                title: `${this.userName}同学课程总览`
-            });
-
-            this.drawChart();
-        }, 2000);
+        wx.request({
+            url: 'https://back.yuiyu.cn/wx/student/stat',
+            data: {
+                studentId: student.id,
+                // openid: openid
+                openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
+            },
+            method: 'POST',
+            success: function(res) {
+                that.expendNum = res.data.expendNum;
+                that.restNum = res.data.restNum;
+                that.lessons = res.data.lessons;
+                that.$apply();
+                that.drawChart();
+            }
+        });
     }
     // 绘制饼图
     drawChart() {
+        const that = this;
         new wxCharts({
             canvasId: 'pie',
             type: 'pie',
             series: [
                 {
                     name: '已用课时',
-                    data: 50,
+                    data: parseInt(that.data.expendNum),
                     color: '#bfbfbf',
                     format: function() {
                         return `已用${this.data}课时`;
@@ -184,7 +175,7 @@ export default class Center extends wepy.page {
                 },
                 {
                     name: '待用课时',
-                    data: 14,
+                    data: parseInt(that.data.restNum),
                     color: '#95de64',
                     format: function() {
                         return `待用${this.data}课时`;

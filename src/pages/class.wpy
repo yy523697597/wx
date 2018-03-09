@@ -68,27 +68,30 @@
 </style>
 <template >
     <view class='class'>
-        <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
-            <view class="month" data-month="{{classInfo.month}}">
-                {{classInfo.month}} >
-            </view>
-            <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex">
-                <view class="time-container">
-                    <view class="day">{{item.day}}</view>
-                    <view class="week">{{item.week}}</view>
+        <view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
+            <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
+                <view class="month" data-month="{{classInfo.month}}">
+                    {{classInfo.month}} >
                 </view>
-                <view class="class-name-container">
-                    <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex">
-                        <view>{{class.time}}</view>
-                        <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
-                        <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
-                        <view>{{class.location}}</view>
-                        <view>{{class.className}}</view>
-                        <button wx:if="{{class.type !== '已上'}}" class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">{{class.leave}}</button>
+                <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
+                    <view class="time-container">
+                        <view class="day">{{item.day}}</view>
+                        <view class="week">{{item.week}}</view>
+                    </view>
+                    <view class="class-name-container">
+                        <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex" wx:key="index">
+                            <view>{{class.time}}</view>
+                            <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
+                            <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
+                            <view>{{class.location}}</view>
+                            <view>{{class.className}}</view>
+                            <button wx:if="{{class.type !== '已上'}}" class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">{{class.leave}}</button>
+                        </view>
                     </view>
                 </view>
             </view>
         </view>
+    </view>
     </view>
 </template>
 
@@ -97,7 +100,8 @@ import wepy from 'wepy';
 
 export default class ClassDetail extends wepy.page {
     config = {
-        navigationBarTitleText: '课程表'
+        navigationBarTitleText: '课程表',
+        enablePullDownRefresh: true
     };
 
     data = {
@@ -198,9 +202,91 @@ export default class ClassDetail extends wepy.page {
                     }
                 ]
             }
-        ]
+        ],
+        addCount: 30,
+        cutCount: 30
     };
-    computed = {};
+
+    onLoad(options) {
+        this.getClass();
+    }
+    // 下拉添加更多原来的上课记录
+    onPullDownRefresh() {
+        console.log(5555);
+        setTimeout(() => {
+            wx.stopPullDownRefresh();
+        }, 2000);
+    }
+
+    dateToDate(date) {
+        let sDate = new Date();
+        if (
+            typeof date == 'object' &&
+            typeof new Date().getMonth == 'function'
+        ) {
+            sDate = date;
+        } else if (typeof date == 'string') {
+            let arr = date.split('-');
+            if (arr.length == 3) {
+                sDate = new Date(arr[0] + '-' + arr[1] + '-' + arr[2]);
+            }
+        }
+
+        return sDate;
+    }
+
+    addMonth(date, num) {
+        num = parseInt(num);
+        let sDate = this.dateToDate(date);
+
+        let sYear = sDate.getFullYear();
+        let sMonth = sDate.getMonth() + 1;
+        let sDay = sDate.getDate();
+
+        let eYear = sYear;
+        let eMonth = sMonth + num;
+        let eDay = sDay;
+        while (eMonth > 12) {
+            eYear++;
+            eMonth -= 12;
+        }
+
+        let eDate = new Date(eYear, eMonth - 1, eDay);
+
+        while (eDate.getMonth() != eMonth - 1) {
+            eDay--;
+            eDate = new Date(eYear, eMonth - 1, eDay);
+        }
+        let month = eDate.getMonth() + 1;
+        if (month < 10) {
+            month = '0' + month;
+        }
+        return eDate.getFullYear() + '-' + month;
+    }
+
+    // 上拉加载更多未上课记录
+    onReachBottom() {}
+    getClass() {
+        const student = wx.getStorageSync('student');
+        const openid = wx.getStorageSync('openid');
+        const startDate = this.addDate(new Date(), -this.cutCount);
+        const endDate = this.addDate(new Date(), this.addCount);
+
+        wx.request({
+            url: 'https://back.yuiyu.cn/wx/record/index',
+            data: {
+                studentId: student.id, //学生id
+                startDate: startDate, //查询的开始日期
+                endDate: endDate, //查询的结束日期,
+                // openid:openid,
+                openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
+            },
+            method: 'POST',
+            success: function(res) {
+                // success
+            }
+        });
+    }
     methods = {
         selectClass(monthIndex, dayIndex, classIndex) {
             const that = this;

@@ -163,6 +163,7 @@ export default class Index extends wepy.page {
                     },
                     method: 'POST',
                     success: function(res) {
+                        console.log(res.data);
                         if (res.data.ok) {
                             console.log('成功请求登录接口');
                             wx.showToast({
@@ -170,10 +171,6 @@ export default class Index extends wepy.page {
                                 icon: 'success',
                                 duration: 1000
                             });
-                            wx.setStorageSync(
-                                'sessionId',
-                                res.header['Set-Cookie']
-                            );
                             const students = res.data.students;
                             if (students.length === 1) {
                                 setTimeout(() => {
@@ -229,7 +226,7 @@ export default class Index extends wepy.page {
                     method: 'POST',
                     success: function(res) {
                         console.log(res.data);
-                        if (!res.data.ok && res.data.errorCode == 10002) {
+                        if (!res.data.ok) {
                             wx.showModal({
                                 title: '提示',
                                 content: '您还不是会员哦，不能登录',
