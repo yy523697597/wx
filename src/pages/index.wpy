@@ -31,7 +31,7 @@
     width: 300rpx;
     height: 80rpx;
     padding-left: 10rpx;
-    margin-right: 26rpx;
+    margin-right: 28rpx;
     border: 1rpx solid #ccc;
     border-radius: 10rpx;
   }
