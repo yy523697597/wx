@@ -18,7 +18,7 @@
                             <view>{{class.location}}</view>
                             <view>{{class.lessonName}}</view>
                             <button wx:if="{{class.type == '待上'}}" class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">请假</button>
-                            <button wx:if="{{class.type == '请假'}}" class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">已请假</button>
+                            <button wx:if="{{class.type == '请假'}}" class="danger" catchtap="cancleClass" data-wpycancleclass-a="{{monthIndex}}" data-wpycancleclass-b="{{dayIndex}}" data-wpycancleclass-c="{{classIndex}}">已请假</button>
                         </view>
                     </view>
                 </view>
