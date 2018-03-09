@@ -210,7 +210,7 @@ export default class Index extends wepy.page {
     },
     // 获取验证码
     getVali() {
-      if (this.userPhone.length !== 11) {
+      if (!this.userPhone || this.userPhone.length !== 11) {
         wx.showToast({
           title: '手机号错误',
           image: './img/fail.png',
