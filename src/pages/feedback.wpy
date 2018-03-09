@@ -1,44 +1,44 @@
 <style lang="less">
 /* pages/center/center.wxss */
 .feedback {
-    .text {
-        width: 560rpx;
-        margin: 0 auto;
-        min-height: 300rpx;
-        margin-bottom: 20rpx;
-        margin-top: 40rpx;
-        border: 1px solid #ccc;
-        padding: 20rpx;
-        border-radius: 10rpx;
+  .text {
+    width: 560rpx;
+    margin: 0 auto;
+    min-height: 300rpx;
+    margin-bottom: 20rpx;
+    margin-top: 40rpx;
+    border: 1px solid #ccc;
+    padding: 20rpx;
+    border-radius: 10rpx;
+  }
+  .btn {
+    width: 600rpx;
+    margin: 0 auto;
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+    background-color: #337ab7;
+    color: #fff;
+    border-radius: 10rpx;
+  }
+  .his-item {
+    border-radius: 4px;
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    color: #303133;
+    margin-bottom: 40rpx;
+    padding: 20rpx;
+    view {
+      padding-bottom: 10rpx;
+      margin: 20rpx 0;
+      border-bottom: 1rpx dashed #ccc;
     }
-    .btn {
-        width: 600rpx;
-        margin: 0 auto;
-        text-align: center;
-        height: 80rpx;
-        line-height: 80rpx;
-        background-color: #337ab7;
-        color: #fff;
-        border-radius: 10rpx;
+    view:last-child {
+      border-bottom: none;
     }
-    .his-item {
-        border-radius: 4px;
-        border: 1px solid #ebeef5;
-        background-color: #fff;
-        overflow: hidden;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-        color: #303133;
-        margin-bottom: 40rpx;
-        padding: 20rpx;
-        view {
-            padding-bottom: 10rpx;
-            margin: 20rpx 0;
-            border-bottom: 1rpx dashed #ccc;
-        }
-        view:last-child {
-            border-bottom: none;
-        }
-    }
+  }
 }
 </style>
 <template >
@@ -49,7 +49,7 @@
             <textarea name="textarea" @input="bindTextAreaChange" class="text" value="{{info}}" auto-height placeholder="请输入您的反馈" />
             <button class="btn" form-type="submit">提交</button>
         </form>
-        <text class="title">我的反馈记录</text>
+        <text class="title"  wx:if="{{history.length>0}}">我的反馈记录</text>
         <view class="his-item" wx:for="{{history}}" wx:for-item="item" wx:key="index" wx:if="{{history.length>0}}">
             <view>反馈时间：{{item.date}}</view>
             <view>反馈内容：{{item.content}}</view>
@@ -62,94 +62,94 @@
 import wepy from 'wepy';
 
 export default class Feedback extends wepy.page {
-    config = {
-        navigationBarTitleText: '家长反馈'
-    };
+  config = {
+    navigationBarTitleText: '家长反馈'
+  };
 
-    data = {
-        userName: null,
-        classDetail: null,
-        info: '',
-        noteMaxLen: 7000,
-        history: []
-    };
-    onShow() {
-        this.getFeed();
-    }
-    getFeed() {
-        const openid = wx.getStorageSync('openid');
-        const student = wx.getStorageSync('student');
-        const that = this;
-        wx.request({
-            url: 'https://back.yuiyu.cn/wx/feedback/index',
-            data: {
-                // openid: openid,
-                openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA',
-                studentId: student.id
-            },
-            method: 'POST',
-            success: function(res) {
-                console.log(res.data);
-                if (res.data.ok) {
-                    console.log('成功请求反馈历史记录');
-                    that.history = res.data.list;
-                    that.$apply();
-                    console.log(that.history);
-                }
-            }
-        });
-    }
-    computed = {};
-
-    methods = {
-        bindTextAreaChange(e) {
-            this.info = e.detail.value;
-        },
-        bindFormSubmit(e) {
-            const that = this;
-            if (!this.info) {
-                wx.showModal({
-                    title: '提示',
-                    content: '反馈不能为空哟',
-                    success(res) {
-                        if (res.confirm) {
-                        } else if (res.cancel) {
-                        }
-                    }
-                });
-            } else {
-                wx.showModal({
-                    title: '提示',
-                    content: '是否要提交您的反馈',
-                    success(res) {
-                        if (res.confirm) {
-                            const openid = wx.getStorageSync('openid');
-                            wx.request({
-                                url: 'https://back.yuiyu.cn/wx/feedback/add',
-                                data: {
-                                    studentId: wx.getStorageSync('student').id, //学生id
-                                    content: that.info, //反馈内容,
-                                    openid: openid
-                                },
-                                method: 'POST',
-                                success: function(res) {
-                                    console.log(res.data);
-                                    that.info = '';
-                                    that.$apply();
-                                    wx.showToast({
-                                        title: '成功',
-                                        icon: 'success',
-                                        duration: 2000
-                                    });
-                                    that.getFeed();
-                                }
-                            });
-                        } else if (res.cancel) {
-                        }
-                    }
-                });
-            }
+  data = {
+    userName: null,
+    classDetail: null,
+    info: '',
+    noteMaxLen: 7000,
+    history: []
+  };
+  onShow() {
+    this.getFeed();
+  }
+  getFeed() {
+    const openid = wx.getStorageSync('openid');
+    const student = wx.getStorageSync('student');
+    const that = this;
+    wx.request({
+      url: 'https://back.yuiyu.cn/wx/feedback/index',
+      data: {
+        openid: openid,
+        // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA',
+        studentId: student.id
+      },
+      method: 'POST',
+      success: function(res) {
+        console.log(res.data);
+        if (res.data.ok) {
+          console.log('成功请求反馈历史记录');
+          that.history = res.data.list;
+          that.$apply();
+          console.log(that.history);
         }
-    };
+      }
+    });
+  }
+  computed = {};
+
+  methods = {
+    bindTextAreaChange(e) {
+      this.info = e.detail.value;
+    },
+    bindFormSubmit(e) {
+      const that = this;
+      if (!this.info) {
+        wx.showModal({
+          title: '提示',
+          content: '反馈不能为空哟',
+          success(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        });
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '是否要提交您的反馈',
+          success(res) {
+            if (res.confirm) {
+              const openid = wx.getStorageSync('openid');
+              wx.request({
+                url: 'https://back.yuiyu.cn/wx/feedback/add',
+                data: {
+                  studentId: wx.getStorageSync('student').id, //学生id
+                  content: that.info, //反馈内容,
+                  openid: openid
+                },
+                method: 'POST',
+                success: function(res) {
+                  console.log(res.data);
+                  that.info = '';
+                  that.$apply();
+                  wx.showToast({
+                    title: '成功',
+                    icon: 'success',
+                    duration: 2000
+                  });
+                  that.getFeed();
+                }
+              });
+            } else if (res.cancel) {
+            }
+          }
+        });
+      }
+    }
+  };
 }
 </script>

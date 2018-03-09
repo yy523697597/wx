@@ -2,84 +2,84 @@
 /* pages/center/center.wxss */
 .total,
 .detail-title {
-    font-weight: bold;
-    text-align: center;
-    margin: 20rpx auto 0;
-    display: block;
-    font-size: 40rpx;
+  font-weight: bold;
+  text-align: center;
+  margin: 20rpx auto 0;
+  display: block;
+  font-size: 40rpx;
 }
 .pie-container,
 .pie {
-    width: 700rpx;
-    height: 500rpx;
-    margin: 0 auto;
+  width: 700rpx;
+  height: 500rpx;
+  margin: 0 auto;
 }
 .detail-container {
-    width: 700rpx;
-    margin: 40rpx auto;
+  width: 700rpx;
+  margin: 40rpx auto;
 }
 .detail-container .title {
-    font-size: 32rpx;
+  font-size: 32rpx;
 }
 .all {
-    height: 60rpx;
-    /* border: 1px solid #ccc; */
-    width: 500rpx;
-    margin: 0 auto;
-    display: flex;
-    line-height: 60rpx;
-    font-size: 24rpx;
-    position: relative;
-    .time {
-        width: 150rpx;
-        position: absolute;
-    }
-    .left {
-        left: -160rpx;
-        text-align: right;
-    }
-    .right {
-        right: -160rpx;
-        text-align: left;
-    }
+  height: 60rpx;
+  /* border: 1px solid #ccc; */
+  width: 500rpx;
+  margin: 0 auto;
+  display: flex;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  position: relative;
+  .time {
+    width: 150rpx;
+    position: absolute;
+  }
+  .left {
+    left: -160rpx;
+    text-align: right;
+  }
+  .right {
+    right: -160rpx;
+    text-align: left;
+  }
 }
 .used {
-    width: 30%;
-    transition: all 2s;
-    text-align: right;
+  width: 30%;
+  transition: all 2s;
+  text-align: right;
 }
 .used text {
-    margin-right: -80rpx;
+  margin-right: -80rpx;
 }
 .avaliable text {
-    margin-left: -84rpx;
+  margin-left: -84rpx;
 }
 .avaliable {
-    width: 70%;
-    transition: all 2s;
-    text-align: left;
+  width: 70%;
+  transition: all 2s;
+  text-align: left;
 }
 .title {
-    text-align: center;
-    margin-bottom: 10rpx;
+  text-align: center;
+  margin-bottom: 10rpx;
 }
 .color-flag {
-    display: flex;
-    margin: 20rpx auto;
-    width: 350rpx;
+  display: flex;
+  margin: 20rpx auto;
+  width: 350rpx;
 }
 .avaliable-color,
 .used-color {
-    height: 20rpx;
-    font-size: 20rpx;
-    display: flex;
-    vertical-align: top;
-    margin-right: 40rpx;
+  height: 20rpx;
+  font-size: 20rpx;
+  display: flex;
+  vertical-align: top;
+  margin-right: 40rpx;
 }
 .color-flag .color {
-    margin-right: 10rpx;
-    width: 40rpx;
-    height: 20rpx;
+  margin-right: 10rpx;
+  width: 40rpx;
+  height: 20rpx;
 }
 </style>
 <template >
@@ -119,76 +119,76 @@ import wepy from 'wepy';
 import wxCharts from '../lib/wxcharts.js';
 
 export default class Center extends wepy.page {
-    config = {
-        navigationBarTitleText: '课程总览'
-    };
+  config = {
+    navigationBarTitleText: '课程总览'
+  };
 
-    data = {
-        userName: null,
-        lessons: [],
-        expendNum: null,
-        restNum: null
-    };
-    onShow(options) {
-        this.getInfo();
-    }
-    getInfo() {
-        const that = this;
-        // 获取学生
-        const student = wx.getStorageSync('student');
-        wx.setNavigationBarTitle({
-            title: `${student.name}同学课程总览`
-        });
-        const openid = wx.getStorageSync('openid');
+  data = {
+    userName: null,
+    lessons: [],
+    expendNum: null,
+    restNum: null
+  };
+  onShow(options) {
+    this.getInfo();
+  }
+  getInfo() {
+    const that = this;
+    // 获取学生
+    const student = wx.getStorageSync('student');
+    wx.setNavigationBarTitle({
+      title: `${student.name}同学课程总览`
+    });
+    const openid = wx.getStorageSync('openid');
 
-        wx.request({
-            url: 'https://back.yuiyu.cn/wx/student/stat',
-            data: {
-                studentId: student.id,
-                // openid: openid
-                openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
-            },
-            method: 'POST',
-            success: function(res) {
-                that.expendNum = res.data.expendNum;
-                that.restNum = res.data.restNum;
-                that.lessons = res.data.lessons;
-                that.$apply();
-                that.drawChart();
-            }
-        });
-    }
-    // 绘制饼图
-    drawChart() {
-        const that = this;
-        new wxCharts({
-            canvasId: 'pie',
-            type: 'pie',
-            series: [
-                {
-                    name: '已用课时',
-                    data: parseInt(that.data.expendNum),
-                    color: '#bfbfbf',
-                    format: function() {
-                        return `已用${this.data}课时`;
-                    }
-                },
-                {
-                    name: '待用课时',
-                    data: parseInt(that.data.restNum),
-                    color: '#95de64',
-                    format: function() {
-                        return `待用${this.data}课时`;
-                    }
-                }
-            ],
-            width: 350,
-            height: 250,
-            dataLabel: true
-        });
-    }
-    computed = {};
+    wx.request({
+      url: 'https://back.yuiyu.cn/wx/student/stat',
+      data: {
+        studentId: student.id,
+        openid: openid
+        // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
+      },
+      method: 'POST',
+      success: function(res) {
+        that.expendNum = res.data.expendNum;
+        that.restNum = res.data.restNum;
+        that.lessons = res.data.lessons;
+        that.$apply();
+        that.drawChart();
+      }
+    });
+  }
+  // 绘制饼图
+  drawChart() {
+    const that = this;
+    new wxCharts({
+      canvasId: 'pie',
+      type: 'pie',
+      series: [
+        {
+          name: '已用课时',
+          data: parseInt(that.data.expendNum),
+          color: '#bfbfbf',
+          format: function() {
+            return `已用${this.data}课时`;
+          }
+        },
+        {
+          name: '待用课时',
+          data: parseInt(that.data.restNum),
+          color: '#95de64',
+          format: function() {
+            return `待用${this.data}课时`;
+          }
+        }
+      ],
+      width: 350,
+      height: 250,
+      dataLabel: true
+    });
+  }
+  computed = {};
 
-    methods = {};
+  methods = {};
 }
 </script>
