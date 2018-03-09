@@ -6,7 +6,7 @@
             <canvas canvas-id="pie" class="pie"/>
         </view>
         <text class="detail-title">课程详情</text>
-        <view class="detail-container"  wx:for="{{lessons}}" wx:key="index" wx:for-item="item">
+        <view class="detail-container"  wx:for="{{lessons}}" wx:key="index" wx:for-item="item" wx:if="{{lessons.length>0}}">
             <view class="title">{{item.lessonName}}---共{{item.num}}课时</view>
             <view class="all">
                 <text class="time left">{{item.restNum}}课时</text>
@@ -27,4 +27,5 @@
                 </view>
             </view>
         </view>
+        <view  wx:if="{{lessons.length==0}}" class="no-class">您还没有选课哟</view>
     </view>

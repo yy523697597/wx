@@ -1,9 +1,9 @@
 
     <view class="class">
-        <view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
-            <view class="schedule-container"  wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
+        <view  wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
+            <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
                 <view class="month" data-month="{{classInfo.month}}">
-                    {{classInfo.month}} >
+                    {{classInfo.month}} 
                 </view>
                 <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
                     <view class="time-container">
@@ -24,4 +24,5 @@
                 </view>
             </view>
         </view>
+        <view  wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
     </view>

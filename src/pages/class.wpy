@@ -65,13 +65,21 @@
     }
   }
 }
+.no-class {
+  text-align: center;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  margin-top: 400rpx;
+}
 </style>
 <template >
     <view class='class'>
-        <view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
+        <view wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
             <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
                 <view class="month" data-month="{{classInfo.month}}">
-                    {{classInfo.month}} >
+                    {{classInfo.month}} 
                 </view>
                 <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
                     <view class="time-container">
@@ -92,6 +100,7 @@
                 </view>
             </view>
         </view>
+        <view wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
     </view>
     </view>
 </template>
@@ -107,93 +116,7 @@ export default class ClassDetail extends wepy.page {
 
   data = {
     userName: null,
-    allClass: [
-      {
-        month: '2018年01月',
-        detail: [
-          {
-            day: '09',
-            week: '周六',
-            record: [
-              {
-                date: '2018-03-12',
-                id: '101',
-                lessonId: '6',
-                lessonName: '钢琴课',
-                location: 'B教室',
-                school: '天府校区',
-                startTime: '1520839800',
-                timeRange: '15:30-17:00',
-                type: '待上',
-                weekday: '周一'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        month: '2018年02月',
-        detail: [
-          {
-            day: '08',
-            week: '周三',
-            class: [
-              {
-                classId: 3455,
-                className: '舞蹈课',
-                bgColor: 'pink',
-                time: '17:-18:30',
-                type: '待上',
-                location: 'B教室',
-                day: '09',
-                week: '周三',
-                leave: '请假'
-              },
-              {
-                classId: 3455,
-                className: '舞蹈课',
-                bgColor: 'yellowgreen',
-                time: '17:-18:30',
-                type: '待上',
-                location: 'B教室',
-                day: '09',
-                week: '周三',
-                leave: '请假'
-              }
-            ]
-          },
-          {
-            day: '12',
-            week: '周四',
-            class: [
-              {
-                classId: 3455,
-                className: '舞蹈课',
-                bgColor: 'yellowgreen',
-                time: '17:-18:30',
-
-                type: '待上',
-                location: 'B教室',
-                day: '09',
-                week: '周四',
-                leave: '请假'
-              },
-              {
-                classId: 3455,
-                className: '舞蹈课',
-                bgColor: 'yellowgreen',
-                time: '17:-18:30',
-                type: '待上',
-                location: 'B教室',
-                day: '09',
-                week: '周四',
-                leave: '请假'
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    allClass: [],
     addCount: 1,
     cutCount: 1,
     upHasMore: true,

@@ -81,6 +81,14 @@
   width: 40rpx;
   height: 20rpx;
 }
+.no-class {
+  text-align: center;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  margin-top: 100rpx;
+}
 </style>
 <template >
     <!--pages/center/center.wxml-->
@@ -90,7 +98,7 @@
             <canvas canvas-id="pie" class="pie"></canvas>
         </view>
         <text class="detail-title">课程详情</text>
-        <view class="detail-container" wx:for="{{lessons}}" wx:key="index" wx:for-item="item">
+        <view class="detail-container" wx:for="{{lessons}}" wx:key="index" wx:for-item="item" wx:if="{{lessons.length>0}}">
             <view class="title">{{item.lessonName}}---共{{item.num}}课时</view>
             <view class="all">
                 <text class="time left">{{item.restNum}}课时</text>
@@ -111,6 +119,7 @@
                 </view>
             </view>
         </view>
+        <view wx:if="{{lessons.length==0}}" class="no-class">您还没有选课哟</view>
     </view>
 </template>
 
