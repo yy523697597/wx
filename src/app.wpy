@@ -1,5 +1,14 @@
 <style lang="less">
-
+.title {
+    display: block;
+    text-align: center;
+    margin: 60rpx 0 20rpx;
+}
+.his-item {
+    width: 80%;
+    margin: 20rpx auto;
+    font-size: 28rpx;
+}
 </style>
 
 <script>
@@ -12,8 +21,8 @@ export default class extends wepy.app {
             'pages/selectStudent',
             'pages/feedback',
             'pages/class',
-            'pages/calendar',
             'pages/center',
+            'pages/calendar',
             'pages/detail'
         ],
         window: {
@@ -50,7 +59,6 @@ export default class extends wepy.app {
         userName: 'Yui'
     };
     onLaunch() {
-        console.log(156);
         wx.login({
             success: function(res) {
                 if (res.code) {
@@ -60,7 +68,7 @@ export default class extends wepy.app {
                             code: res.code
                         },
                         success: function(res) {
-                            console.log(res.data);
+                            console.log('成功获取openId');
                             if (res.data.ok) {
                                 wx.setStorageSync('openid', res.data.openid);
                             }

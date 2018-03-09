@@ -21,6 +21,24 @@
         color: #fff;
         border-radius: 10rpx;
     }
+    .his-item {
+        border-radius: 4px;
+        border: 1px solid #ebeef5;
+        background-color: #fff;
+        overflow: hidden;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        color: #303133;
+        margin-bottom: 40rpx;
+        padding: 20rpx;
+        view {
+            padding-bottom: 10rpx;
+            margin: 20rpx 0;
+            border-bottom: 1rpx dashed #ccc;
+        }
+        view:last-child {
+            border-bottom: none;
+        }
+    }
 }
 </style>
 <template >
@@ -31,6 +49,12 @@
             <textarea name="textarea" @input="bindTextAreaChange" class="text" value="{{info}}" auto-height placeholder="请输入您的反馈" />
             <button class="btn" form-type="submit">提交</button>
         </form>
+        <text class="title">我的反馈记录</text>
+        <view class="his-item">
+            <view>反馈时间：2018-03-08</view>
+            <view>反馈内容：阿萨德公交卡拿到可能是噶第十六届高考卢卡斯交给你啦的结论是功能啦的结论是公交卡那冬季施工年上半年跟你说高级会计师</view>
+            <view>回复：阿号就快了晚上给好久开金卡戴珊更不可能施工监理那睡到感冒了，地上的啥奖励哦哈等级考试办个卡不是给你冀东水泥估计可能叫啥德古拉当练手估计可能就考试了</view>
+        </view>
     </view>
 </template>
 
@@ -74,7 +98,6 @@ export default class Feedback extends wepy.page {
                     content: '是否要提交您的反馈',
                     success(res) {
                         if (res.confirm) {
-                            console.log(header);
                             const openid = wx.getStorageSync('openid');
                             wx.request({
                                 url: 'https://back.yuiyu.cn/wx/feedback/add',

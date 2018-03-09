@@ -10,11 +10,13 @@
                     <view class="week">{{item.week}}</view>
                 </view>
                 <view class="class-name-container">
-                    <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.bgColor}}" wx:for-index="classIndex">
-                        <view>{{class.noon}} --- {{class.time}}</view>
+                    <view class="class-name" wx:for="{{item.class}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex">
+                        <view>{{class.time}}</view>
+                        <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
+                        <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
                         <view>{{class.location}}</view>
                         <view>{{class.className}}</view>
-                        <button wx:if="{{class.status !== '已上'}}" class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">{{class.leave}}</button>
+                        <button wx:if="{{class.type !== '已上'}}" class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">{{class.leave}}</button>
                     </view>
                 </view>
             </view>

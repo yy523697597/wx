@@ -6,20 +6,25 @@
     margin-top: 120rpx;
 }
 .name {
-    width: 200rpx;
-    height: 80rpx;
-    border: 1px solid #ccc;
-    border-radius: 10rpx;
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
     margin: 60rpx auto;
     text-align: center;
+    height: 80rpx;
+    width: 200rpx;
     line-height: 80rpx;
-    font-size: 28rpx;
+    font-size: 32rpx;
+    border: 1px solid #dcdfe6;
+    font-weight: 500;
+    padding: 12rpx 20rpx;
+    border-radius: 4px;
 }
 </style>
 <template>
     <view class="title">请选择您要查看的学生</view>
 
-    <view @tap="selectStudent({{index}})" class="name" wx:for="{{students}}">{{item.studentName}}</view>
+    <view @tap="selectStudent({{index}})" class="name" wx:for="{{students}}">{{item.name}}</view>
 
 </template>
 <script>
@@ -30,17 +35,12 @@ export default class SelectStudent extends wepy.page {
         navigationBarTitleText: '选择学生'
     };
     data = {
-        students: [
-            {
-                studentId: 123245,
-                studentName: '小帅'
-            },
-            {
-                studentId: 123246,
-                studentName: '王小虎'
-            }
-        ]
+        students: []
     };
+    onLoad() {
+        this.students = wx.getStorageSync('studentList');
+        this.$apply();
+    }
     methods = {
         selectStudent(index) {
             const studentId = this.students[index].studentId;

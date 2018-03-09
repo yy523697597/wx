@@ -69,35 +69,35 @@
 }
 </style>
 <template >
-  <!--pages/center/center.wxml-->
-  <view class='center' wx:if="{{userClass.length>0}}">
-    <text class="total">课程总览</text>
-    <view class="pie-container">
-      <canvas canvas-id="pie" class="pie"></canvas>
+    <!--pages/center/center.wxml-->
+    <view class='center' wx:if="{{userClass.length>0}}">
+        <text class="total">课程总览</text>
+        <view class="pie-container">
+            <canvas canvas-id="pie" class="pie"></canvas>
+        </view>
+        <text class="detail-title">课程详情</text>
+        <view class="detail-container" wx:for="{{userClass}}" wx:key="index">
+            <view class="title">{{item.title}}---共{{item.total}}课时</view>
+            <view class="all">
+                <view class="avaliable" style="background-color:#95de64;width:{{(item.avaliable/item.total)*100}}%">
+                    <text>{{item.avaliable}}课时</text>
+                </view>
+                <view class="used " style="background-color:#bfbfbf;width:{{(item.used/item.total)*100}}%">
+                    <text>{{item.used}}课时</text>
+                </view>
+            </view>
+            <view class="color-flag ">
+                <view class="avaliable-color ">
+                    <view class="color " style="background-color:#95de64"></view>
+                    <text>待用课时</text>
+                </view>
+                <view class="used-color ">
+                    <view class="color " style="background-color:#bfbfbf"></view>
+                    <text>已用课时</text>
+                </view>
+            </view>
+        </view>
     </view>
-    <text class="detail-title">课程详情</text>
-    <view class="detail-container" wx:for="{{userClass}}" wx:key="index">
-      <view class="title">{{item.title}}---共{{item.total}}课时</view>
-      <view class="all">
-        <view class="avaliable" style="background-color:{{item.avaColor}};width:{{(item.avaliable/item.total)*100}}%">
-          <text>{{item.avaliable}}课时</text>
-        </view>
-        <view class="used " style="background-color:{{item.usedColor}} ;width:{{(item.used/item.total)*100}}%">
-          <text>{{item.used}}课时</text>
-        </view>
-      </view>
-      <view class="color-flag ">
-        <view class="avaliable-color ">
-          <view class="color " style="background-color:{{item.avaColor}} "></view>
-          <text>待用课时</text>
-        </view>
-        <view class="used-color ">
-          <view class="color " style="background-color:{{item.usedColor}} "></view>
-          <text>已用课时</text>
-        </view>
-      </view>
-    </view>
-  </view>
 </template>
 
 <script>
@@ -130,32 +130,32 @@ export default class Center extends wepy.page {
                     total: 16,
                     used: 9,
                     avaliable: 7,
-                    usedColor: '#ffa39e',
-                    avaColor: '#b7eb8f'
+                    usedColor: '#bfbfbf',
+                    avaColor: '#95de64'
                 },
                 {
                     title: '主持大赛',
                     total: 16,
                     used: 4,
                     avaliable: 12,
-                    usedColor: '#fffb8f',
-                    avaColor: '#b7eb8f'
+                    usedColor: '#bfbfbf',
+                    avaColor: '#95de64'
                 },
                 {
                     title: '形体班',
                     total: 16,
                     used: 6,
                     avaliable: 10,
-                    usedColor: '#adc6ff',
-                    avaColor: '#b7eb8f'
+                    usedColor: '#bfbfbf',
+                    avaColor: '#95de64'
                 },
                 {
                     title: '舞台剧',
                     total: 16,
                     used: 12,
                     avaliable: 4,
-                    usedColor: '#d3adf7',
-                    avaColor: '#b7eb8f'
+                    usedColor: '#bfbfbf',
+                    avaColor: '#95de64'
                 }
             ];
             // 异步调用必须使用apply进行数据刷新
@@ -177,7 +177,7 @@ export default class Center extends wepy.page {
                 {
                     name: '已用课时',
                     data: 50,
-                    color: 'rgb(255,163,158)',
+                    color: '#bfbfbf',
                     format: function() {
                         return `已用${this.data}课时`;
                     }
@@ -185,7 +185,7 @@ export default class Center extends wepy.page {
                 {
                     name: '待用课时',
                     data: 14,
-                    color: 'rgb(149,222,100)',
+                    color: '#95de64',
                     format: function() {
                         return `待用${this.data}课时`;
                     }
