@@ -130,10 +130,14 @@ export default class Index extends wepy.page {
                 if (res.data.ok) {
                     console.log('成功请求首页图片');
                     that.indexImages = res.data.pics;
+                    that.$apply();
                 }
             }
         });
+        this.loginShow = false;
+        this.$apply();
     }
+
     methods = {
         showIndex() {
             this.loginShow = false;
