@@ -107,6 +107,7 @@ export default class Feedback extends wepy.page {
     },
     bindFormSubmit(e) {
       const that = this;
+      that.info = that.info.replace(/^\s+|\s+$/gm, '');
       if (!this.info) {
         wx.showModal({
           title: '提示',
