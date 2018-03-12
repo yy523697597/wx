@@ -1,257 +1,289 @@
 <style lang="less">
 .logo {
-  display: block;
-  width: 300rpx;
-  height: 300rpx;
-  margin: 0 auto 20rpx;
+    display: block;
+    width: 300rpx;
+    height: 300rpx;
+    margin: 0 auto 20rpx;
 }
 .phone {
-  width: 600rpx;
-  height: 80rpx;
-  border: 1rpx solid #ccc;
-  border-radius: 10rpx;
-  padding-left: 10rpx;
-  margin: 40rpx auto;
-}
-.vali-container {
-  display: flex;
-  justify-content: space-between;
-  width: 618rpx;
-  height: 80rpx;
-  margin: 0 auto;
-  margin-bottom: 40rpx;
-  .vali-btn {
+    width: 600rpx;
     height: 80rpx;
-    width: 270rpx;
-    line-height: 80rpx;
-    font-size: 32rpx;
-    color: #fff;
-  }
-  .vali-text {
-    width: 300rpx;
-    height: 80rpx;
-    padding-left: 10rpx;
-    margin-right: 28rpx;
     border: 1rpx solid #ccc;
     border-radius: 10rpx;
-  }
+    padding-left: 10rpx;
+    margin: 40rpx auto;
+}
+.vali-container {
+    display: flex;
+    justify-content: space-between;
+    width: 618rpx;
+    height: 80rpx;
+    margin: 0 auto;
+    margin-bottom: 40rpx;
+    .vali-btn {
+        height: 80rpx;
+        width: 270rpx;
+        line-height: 80rpx;
+        font-size: 32rpx;
+        color: #fff;
+    }
+    .vali-text {
+        width: 300rpx;
+        height: 80rpx;
+        padding-left: 10rpx;
+        margin-right: 28rpx;
+        border: 1rpx solid #ccc;
+        border-radius: 10rpx;
+    }
 }
 
 .stop {
-  color: #333;
-  background-color: #d4d4d4;
+    color: #333;
+    background-color: #d4d4d4;
 }
 
 .login-btn {
-  width: 616rpx;
-  color: #fff;
-  background-color: #449d44;
-  height: 80rpx;
-  line-height: 80rpx;
+    width: 616rpx;
+    color: #fff;
+    background-color: #449d44;
+    height: 80rpx;
+    line-height: 80rpx;
 }
 .tabbar {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  width: 100vw;
-  height: 80rpx;
-  line-height: 80rpx;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100vw;
+    height: 80rpx;
+    line-height: 80rpx;
 
-  view {
-    flex: 1;
-    text-align: center;
-    background-color: rgb(246, 246, 246);
-    border-top: 1rpx solid #ccc;
-    font-size: 28rpx;
-  }
-  .active {
-    color: green;
-  }
+    view {
+        flex: 1;
+        text-align: center;
+        background-color: rgb(246, 246, 246);
+        border-top: 1rpx solid #ccc;
+        font-size: 28rpx;
+    }
+    .active {
+        color: green;
+    }
 }
 .index-img {
-  width: 95%;
-  margin: 0 auto;
-  display: block;
+    width: 95%;
+    margin: 0 auto;
+    display: block;
 }
 .index-contianer {
-  padding-bottom: 100rpx;
+    padding-bottom: 100rpx;
 }
 </style>
 <template>
-    <view hidden="{{loginShow}}" class="index-contianer">
-        <image src='{{item}}' mode="widthFix" class='index-img' wx:for="{{indexImages}}"></image>
+  <view hidden="{{loginShow}}" class="index-contianer">
+    <image src='{{item}}' mode="widthFix" class='index-img' wx:for="{{indexImages}}"></image>
+  </view>
+  <view hidden="{{!loginShow}}">
+    <image src='./img/logo.jpg' class='logo'></image>
+    <view class='login-container'>
+      <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
+      <view class='vali-container'>
+        <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
+        <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
+      </view>
+      <button class='login-btn' @tap="tryLogin">登录</button>
     </view>
-    <view hidden="{{!loginShow}}">
-        <image src='./img/logo.jpg' class='logo'></image>
-        <view class='login-container'>
-            <input class='phone' placeholder='请输入您的手机号码' maxlength='11' @blur="getUserPhone"></input>
-            <view class='vali-container'>
-                <input class='vali-text' placeholder='请输入验证码' maxlength='6' @blur="getUserVali"></input>
-                <button class='vali-btn ' @tap="getVali" style="background-color:{{valiColor}}">{{valiText}}</button>
-            </view>
-            <button class='login-btn' @tap="tryLogin">登录</button>
-        </view>
-    </view>
-    <view class="tabbar">
-        <view @tap="showIndex" class="index" class="{{loginShow!==true?'active':''}}">首页</view>
-        <view @tap="showLogin" class="login" class="{{loginShow===true?'active':''}}">登录</view>
-    </view>
+  </view>
+  <view class="tabbar">
+    <view @tap="showIndex" class="index" class="{{loginShow!==true?'active':''}}">首页</view>
+    <view @tap="showLogin" class="login" class="{{loginShow===true?'active':''}}">登录</view>
+  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 export default class Index extends wepy.page {
-  config = {
-    navigationBarTitleText: '巧克力梦工厂'
-  };
+    config = {
+        navigationBarTitleText: '巧克力梦工厂'
+    };
 
-  data = {
-    userPhone: null,
-    userVali: null,
-    valiNum: 123456,
-    valiText: '获取验证码',
-    validating: false,
-    valiTime: 60,
-    valiColor: '#337ab7',
-    loginShow: false,
-    indexImages: []
-  };
+    data = {
+        userPhone: null,
+        userVali: null,
+        valiNum: 123456,
+        valiText: '获取验证码',
+        validating: false,
+        valiTime: 60,
+        valiColor: '#337ab7',
+        loginShow: false,
+        indexImages: []
+    };
 
-  computed = {};
-  onLoad() {
-    // 请求首页图片
-    const that = this;
-    wx.request({
-      url: 'https://back.yuiyu.cn/wx/home/pics',
-      data: null,
-      success: function(res) {
-        console.log(res.data);
-        if (res.data.ok) {
-          console.log('成功请求首页图片');
-          that.indexImages = res.data.pics;
-          that.$apply();
-        }
-      }
-    });
-    this.loginShow = false;
-    this.$apply();
-  }
-
-  methods = {
-    showIndex() {
-      this.loginShow = false;
-    },
-    showLogin() {
-      this.loginShow = true;
-    },
-    // 登录
-    tryLogin: function() {
-      if (this.userPhone.length !== 11) {
-        wx.showToast({
-          title: '手机号错误',
-          image: './img/fail.png',
-          duration: 1000
-        });
-        return;
-      }
-      if (this.userVali.length == 6) {
-        const openid = wx.getStorageSync('openid');
-        // 获取验证码`
-        wx.request({
-          url: 'https://back.yuiyu.cn/wx/login/verify',
-          data: {
-            phone: this.userPhone,
-            code: this.userVali,
-            openid: openid
-          },
-          method: 'POST',
-          success: function(res) {
-            console.log(res.data);
-            if (res.data.ok) {
-              console.log('成功请求登录接口');
-              wx.showToast({
-                title: '登录成功',
-                icon: 'success',
-                duration: 1000
-              });
-              const students = res.data.students;
-              if (students.length === 1) {
-                setTimeout(() => {
-                  wx.setStorageSync('student', students[0]);
-                  wx.switchTab({
-                    url: './center'
-                  });
-                }, 1000);
-              } else {
-                setTimeout(() => {
-                  wx.setStorageSync('studentList', students);
-                  wx.redirectTo({
-                    url: `./selectStudent?students=${JSON.stringify(students)}`
-                  });
-                }, 1000);
-              }
-            } else {
-              wx.showToast({
-                title: '登录失败',
-                image: './img/fail.png',
-                duration: 1000
-              });
-            }
-          }
-        });
-      } else {
-        wx.showToast({
-          title: '验证码错误',
-          image: './img/fail.png',
-          duration: 1000
-        });
-      }
-    },
-    // 获取验证码
-    getVali() {
-      if (!this.userPhone || this.userPhone.length !== 11) {
-        wx.showToast({
-          title: '手机号错误',
-          image: './img/fail.png',
-          duration: 1000
-        });
-      } else {
+    computed = {};
+    getLogin() {
         const that = this;
-        that.valiColor = '#ccc';
-        that.valiText = '已发送';
+        const openid = wx.getStorageSync('openid');
         wx.request({
-          url: 'https://back.yuiyu.cn/wx/login/code',
-          data: {
-            phone: that.userPhone
-          },
-          method: 'POST',
-          success: function(res) {
-            console.log(res.data);
-            if (!res.data.ok) {
-              wx.showModal({
-                title: '提示',
-                content: res.data.errorMsg,
-                showCancel: false,
-                success: function(res) {
-                  that.setData({
-                    valiColor: '#337ab7',
-                    valiText: '获取验证码'
-                  });
+            url: 'https://back.yuiyu.cn/wx/login/islogin',
+            data: {
+                openid: openid
+            },
+            success: function(res) {
+                if (res.data.ok) {
+                    console.log('成功请求isLogin');
+                    const students = res.data.students;
+                    if (students.length === 1) {
+                        wx.setStorageSync('student', students[0]);
+                        wx.switchTab({
+                            url: './center'
+                        });
+                    } else if (students.length > 1) {
+                        wx.setStorageSync('studentList', students);
+                        wx.redirectTo({
+                            url: `./selectStudent?students=${JSON.stringify(
+                                students
+                            )}`
+                        });
+                    }
                 }
-              });
             }
-          }
         });
-      }
-    },
-    getUserPhone(e) {
-      this.userPhone = e.detail.value;
-      this.$parent.customData.phone = e.detail.value;
-    },
-    getUserVali(e) {
-      this.userVali = e.detail.value;
     }
-  };
+    onLoad() {
+        // 请求首页图片
+        const that = this;
+        wx.request({
+            url: 'https://back.yuiyu.cn/wx/home/pics',
+            data: null,
+            success: function(res) {
+                console.log(res.data);
+                if (res.data.ok) {
+                    console.log('成功请求首页图片');
+                    that.indexImages = res.data.pics;
+                    that.$apply();
+                }
+            }
+        });
+        this.loginShow = false;
+        this.$apply();
+    }
+
+    methods = {
+        showIndex() {
+            this.loginShow = false;
+        },
+        showLogin() {
+            this.loginShow = true;
+            this.getLogin();
+        },
+        // 登录
+        tryLogin: function() {
+            if (this.userPhone.length !== 11) {
+                wx.showToast({
+                    title: '手机号错误',
+                    image: './img/fail.png',
+                    duration: 1000
+                });
+                return;
+            }
+            if (this.userVali.length == 6) {
+                const openid = wx.getStorageSync('openid');
+                // 获取验证码`
+                wx.request({
+                    url: 'https://back.yuiyu.cn/wx/login/verify',
+                    data: {
+                        phone: this.userPhone,
+                        code: this.userVali,
+                        openid: openid
+                    },
+                    method: 'POST',
+                    success: function(res) {
+                        console.log(res.data);
+                        if (res.data.ok) {
+                            console.log('成功请求登录接口');
+                            wx.showToast({
+                                title: '登录成功',
+                                icon: 'success',
+                                duration: 1000
+                            });
+                            const students = res.data.students;
+                            if (students.length === 1) {
+                                setTimeout(() => {
+                                    wx.setStorageSync('student', students[0]);
+                                    wx.switchTab({
+                                        url: './center'
+                                    });
+                                }, 1000);
+                            } else {
+                                setTimeout(() => {
+                                    wx.setStorageSync('studentList', students);
+                                    wx.redirectTo({
+                                        url: `./selectStudent?students=${JSON.stringify(
+                                            students
+                                        )}`
+                                    });
+                                }, 1000);
+                            }
+                        } else {
+                            wx.showToast({
+                                title: '登录失败',
+                                image: './img/fail.png',
+                                duration: 1000
+                            });
+                        }
+                    }
+                });
+            } else {
+                wx.showToast({
+                    title: '验证码错误',
+                    image: './img/fail.png',
+                    duration: 1000
+                });
+            }
+        },
+        // 获取验证码
+        getVali() {
+            if (!this.userPhone || this.userPhone.length !== 11) {
+                wx.showToast({
+                    title: '手机号错误',
+                    image: './img/fail.png',
+                    duration: 1000
+                });
+            } else {
+                const that = this;
+                that.valiColor = '#ccc';
+                that.valiText = '已发送';
+                wx.request({
+                    url: 'https://back.yuiyu.cn/wx/login/code',
+                    data: {
+                        phone: that.userPhone
+                    },
+                    method: 'POST',
+                    success: function(res) {
+                        console.log(res.data);
+                        if (!res.data.ok) {
+                            wx.showModal({
+                                title: '提示',
+                                content: res.data.errorMsg,
+                                showCancel: false,
+                                success: function(res) {
+                                    that.setData({
+                                        valiColor: '#337ab7',
+                                        valiText: '获取验证码'
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        },
+        getUserPhone(e) {
+            this.userPhone = e.detail.value;
+            this.$parent.customData.phone = e.detail.value;
+        },
+        getUserVali(e) {
+            this.userVali = e.detail.value;
+        }
+    };
 }
 </script>
