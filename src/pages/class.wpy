@@ -1,278 +1,289 @@
 <style lang="less">
 /* pages/center/center.wxss */
 .schedule-container {
-  width: 600rpx;
-  margin: 0 auto;
-  .month {
-    font-size: 30rpx;
-    text-align: center;
-    margin-bottom: 20rpx;
-  }
-  .detail-container {
-    display: flex;
-    line-height: 80rpx;
-    margin-bottom: 20rpx;
-    .time-container {
-      width: 100rpx;
-      height: 80rpx;
-      margin: 20rpx 0;
-      .day,
-      .week {
-        height: 40rpx;
-        line-height: 40rpx;
-      }
-      .day {
-        font-size: 34rpx;
-      }
-      .week {
-        font-size: 22rpx;
-      }
+    width: 600rpx;
+    margin: 0 auto;
+    .month {
+        font-size: 30rpx;
+        text-align: center;
+        margin-bottom: 20rpx;
     }
-    .class-name {
-      height: 260rpx;
-      width: 500rpx;
-      margin: 20rpx 0;
-      padding-left: 20rpx;
-      color: #fff;
-      font-size: 28rpx;
-      position: relative;
-      border-radius: 4px;
-      border: 1px solid #ebeef5;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    .detail-container {
+        display: flex;
+        line-height: 80rpx;
+        margin-bottom: 20rpx;
+        .time-container {
+            width: 100rpx;
+            height: 80rpx;
+            margin: 20rpx 0;
+            .day,
+            .week {
+                height: 40rpx;
+                line-height: 40rpx;
+            }
+            .day {
+                font-size: 34rpx;
+            }
+            .week {
+                font-size: 22rpx;
+            }
+        }
+        .class-name {
+            height: 260rpx;
+            width: 500rpx;
+            margin: 20rpx 0;
+            padding-left: 20rpx;
+            color: #fff;
+            font-size: 28rpx;
+            position: relative;
+            border-radius: 4px;
+            border: 1px solid #ebeef5;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
+        .danger {
+            position: absolute;
+            right: 34rpx;
+            bottom: 34rpx;
+            font-size: 28rpx;
+            width: 160rpx;
+            height: 50rpx;
+            line-height: 50rpx;
+            color: #f56c6c;
+            background: #fef0f0;
+            border-color: #fbc4c4;
+        }
+        .type {
+            position: absolute;
+            right: 30rpx;
+            top: 8rpx;
+        }
+        .info {
+            color: #909399;
+        }
+        .success {
+            color: #fff;
+        }
     }
-    .danger {
-      position: absolute;
-      right: 34rpx;
-      bottom: 34rpx;
-      font-size: 28rpx;
-      width: 160rpx;
-      height: 50rpx;
-      line-height: 50rpx;
-      color: #f56c6c;
-      background: #fef0f0;
-      border-color: #fbc4c4;
-    }
-    .type {
-      position: absolute;
-      right: 30rpx;
-      top: 8rpx;
-    }
-    .info {
-      color: #909399;
-    }
-    .success {
-      color: #fff;
-    }
-  }
 }
 .no-class {
-  text-align: center;
-  width: 100%;
-  height: 80rpx;
-  line-height: 80rpx;
-  font-size: 28rpx;
-  margin-top: 400rpx;
+    text-align: center;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    margin-top: 400rpx;
 }
 </style>
 <template >
-    <view class='class'>
-        <view wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
-            <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
-                <view class="month" data-month="{{classInfo.month}}">
-                    {{classInfo.month}} 
-                </view>
-                <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
-                    <view class="time-container">
-                        <view class="day">{{item.day}}</view>
-                        <view class="week">{{item.week}}</view>
-                    </view>
-                    <view class="class-name-container">
-                        <view class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
-                            <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                            <button wx:if="{{class.type == '待上'}}" class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">请假</button>
-                            <button wx:if="{{class.type == '请假'}}" class="danger" @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})">已请假</button>
-                        </view>
-                    </view>
-                </view>
-            </view>
+  <view class='class'>
+    <view wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
+      <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
+        <view class="month" data-month="{{classInfo.month}}">
+          {{classInfo.month}}
         </view>
-        <view wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+        <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
+          <view class="time-container">
+            <view class="day">{{item.day}}</view>
+            <view class="week">{{item.week}}</view>
+          </view>
+          <view class="class-name-container">
+            <view class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex" wx:key="index">
+              <view>{{class.timeRange}}</view>
+              <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
+              <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
+              <button wx:if="{{class.type == '待上'}}" class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">请假</button>
+              <button wx:if="{{class.type == '请假'}}" class="danger" @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})">已请假</button>
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
-    </view>
+    <view wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+  </view>
+  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 
 export default class ClassDetail extends wepy.page {
-  config = {
-    navigationBarTitleText: '课程表',
-    enablePullDownRefresh: true
-  };
+    config = {
+        navigationBarTitleText: '课程表',
+        enablePullDownRefresh: true
+    };
 
-  data = {
-    userName: null,
-    allClass: [],
-    addCount: 1,
-    cutCount: 1,
-    upHasMore: true,
-    downHasMore: true
-  };
+    data = {
+        userName: null,
+        allClass: [],
+        addCount: 1,
+        cutCount: 1,
+        upHasMore: true,
+        downHasMore: true
+    };
 
-  onLoad(options) {
-    this.getClass();
-  }
-  // 下拉添加更多原来的上课记录
-  onPullDownRefresh() {
-    if (this.upHasMore) {
-      this.cutCount -= 3;
-      this.$apply();
-      this.getClass();
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '没有更多历史记录了哟',
-        showCancel: false
-      });
-      wx.stopPullDownRefresh();
+    onLoad(options) {
+        this.getClass();
     }
-  }
-
-  dateToDate(date) {
-    let sDate = new Date();
-    if (typeof date == 'object' && typeof new Date().getMonth == 'function') {
-      sDate = date;
-    } else if (typeof date == 'string') {
-      let arr = date.split('-');
-      if (arr.length == 3) {
-        sDate = new Date(arr[0] + '-' + arr[1] + '-' + arr[2]);
-      }
-    }
-
-    return sDate;
-  }
-
-  // 加减月份
-  addMonth(date, num) {
-    num = parseInt(num);
-    let sDate = this.dateToDate(date);
-
-    let sYear = sDate.getFullYear();
-    let sMonth = sDate.getMonth() + 1;
-    let sDay = sDate.getDate();
-
-    let eYear = sYear;
-    let eMonth = sMonth + num;
-    let eDay = sDay;
-    while (eMonth > 12) {
-      eYear++;
-      eMonth -= 12;
-    }
-
-    let eDate = new Date(eYear, eMonth - 1, eDay);
-
-    while (eDate.getMonth() != eMonth - 1) {
-      eDay--;
-      eDate = new Date(eYear, eMonth - 1, eDay);
-    }
-    let month = eDate.getMonth() + 1;
-    if (month < 10) {
-      month = '0' + month;
-    }
-    return eDate.getFullYear() + '-' + month;
-  }
-
-  // 上拉加载更多未上课记录
-  onReachBottom() {
-    if (this.downHasMore) {
-      this.addCount += 3;
-      this.$apply();
-      this.getClass();
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '没有更多待上课程了哟',
-        showCancel: false
-      });
-    }
-  }
-  // 获取课表信息
-  getClass() {
-    const student = wx.getStorageSync('student');
-    const openid = wx.getStorageSync('openid');
-    const startDate = this.addMonth(new Date(), -this.cutCount);
-    const endDate = this.addMonth(new Date(), this.addCount);
-    const that = this;
-    wx.request({
-      url: 'https://back.yuiyu.cn/wx/record/index',
-      data: {
-        studentId: student.id, //学生id
-        startMonth: startDate, //查询的开始日期
-        endMonth: endDate, //查询的结束日期,
-        openid: openid
-        // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
-      },
-      method: 'POST',
-      success: function(res) {
-        console.log(res.data);
-        if (res.data.ok) {
-          console.log('成功请求课表');
-          that.allClass = res.data.list;
-          that.downHasMore = res.data.downHasMore;
-          that.upHasMore = res.data.upHasMore;
-          that.$apply();
-          wx.stopPullDownRefresh();
+    // 下拉添加更多原来的上课记录
+    onPullDownRefresh() {
+        if (this.upHasMore) {
+            this.cutCount -= 3;
+            this.$apply();
+            this.getClass();
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '没有更多历史记录了哟',
+                showCancel: false
+            });
+            wx.stopPullDownRefresh();
         }
-      }
-    });
-  }
-  methods = {
-    // 点击请假按钮
-    selectClass(monthIndex, dayIndex, classIndex) {
-      const that = this;
-      const openid = wx.getStorageSync('openid');
-      wx.showModal({
-        title: '提示',
-        content: '确定这节课要请假吗',
-        success(res) {
-          if (res.confirm) {
-            const id =
-              that.allClass[monthIndex].detail[dayIndex].record[classIndex].id;
-            wx.request({
-              url: 'https://back.yuiyu.cn/wx/record/leave',
-              data: {
-                id: id,
+    }
+
+    dateToDate(date) {
+        let sDate = new Date();
+        if (
+            typeof date == 'object' &&
+            typeof new Date().getMonth == 'function'
+        ) {
+            sDate = date;
+        } else if (typeof date == 'string') {
+            let arr = date.split('-');
+            if (arr.length == 3) {
+                sDate = new Date(arr[0] + '-' + arr[1] + '-' + arr[2]);
+            }
+        }
+
+        return sDate;
+    }
+
+    // 加减月份
+    addMonth(date, num) {
+        num = parseInt(num);
+        let sDate = this.dateToDate(date);
+
+        let sYear = sDate.getFullYear();
+        let sMonth = sDate.getMonth() + 1;
+        let sDay = sDate.getDate();
+
+        let eYear = sYear;
+        let eMonth = sMonth + num;
+        let eDay = sDay;
+        while (eMonth > 12) {
+            eYear++;
+            eMonth -= 12;
+        }
+
+        let eDate = new Date(eYear, eMonth - 1, eDay);
+
+        while (eDate.getMonth() != eMonth - 1) {
+            eDay--;
+            eDate = new Date(eYear, eMonth - 1, eDay);
+        }
+        let month = eDate.getMonth() + 1;
+        if (month < 10) {
+            month = '0' + month;
+        }
+        return eDate.getFullYear() + '-' + month;
+    }
+
+    // 上拉加载更多未上课记录
+    onReachBottom() {
+        if (this.downHasMore) {
+            this.addCount += 3;
+            this.$apply();
+            this.getClass();
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '没有更多待上课程了哟',
+                showCancel: false
+            });
+        }
+    }
+    // 获取课表信息
+    getClass() {
+        const student = wx.getStorageSync('student');
+        const openid = wx.getStorageSync('openid');
+        const startDate = this.addMonth(new Date(), -this.cutCount);
+        const endDate = this.addMonth(new Date(), this.addCount);
+        const that = this;
+        wx.request({
+            url: 'https://back.yuiyu.cn/wx/record/index',
+            data: {
+                studentId: student.id, //学生id
+                startMonth: startDate, //查询的开始日期
+                endMonth: endDate, //查询的结束日期,
                 openid: openid
                 // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
-              },
-              method: 'POST',
-              success: function(res) {
+            },
+            method: 'POST',
+            success: function(res) {
+                console.log(res.data);
                 if (res.data.ok) {
-                  wx.showToast({
-                    title: '请假成功',
-                    icon: 'success',
-                    duration: 1000
-                  });
-                  that.getClass();
+                    console.log('成功请求课表');
+                    that.allClass = res.data.list;
+                    that.downHasMore = res.data.downHasMore;
+                    that.upHasMore = res.data.upHasMore;
+                    that.$apply();
+                    wx.stopPullDownRefresh();
                 }
-              }
-            });
-          }
-        }
-      });
-    },
-
-    cancleClass(monthIndex, dayIndex, classIndex) {
-      wx.showModal({
-        title: '提示',
-        content: '这节课您已经请过假了哟',
-        showCancel: false
-      });
+            }
+        });
     }
-  };
+    methods = {
+        // 点击请假按钮
+        selectClass(monthIndex, dayIndex, classIndex) {
+            const that = this;
+            const openid = wx.getStorageSync('openid');
+            wx.showModal({
+                title: '提示',
+                content: '确定这节课要请假吗',
+                success(res) {
+                    if (res.confirm) {
+                        const id =
+                            that.allClass[monthIndex].detail[dayIndex].record[
+                                classIndex
+                            ].id;
+                        wx.request({
+                            url: 'https://back.yuiyu.cn/wx/record/leave',
+                            data: {
+                                id: id,
+                                openid: openid
+                                // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA'
+                            },
+                            method: 'POST',
+                            success: function(res) {
+                                if (res.data.ok) {
+                                    wx.showToast({
+                                        title: '请假成功',
+                                        icon: 'success',
+                                        duration: 1000
+                                    });
+                                    that.getClass();
+                                } else {
+                                    wx.showModal({
+                                        title: '请假失败',
+                                        content: res.data.errorMsg,
+                                        showCancel: false
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        },
+
+        cancleClass(monthIndex, dayIndex, classIndex) {
+            wx.showModal({
+                title: '提示',
+                content: '这节课您已经请过假了哟',
+                showCancel: false
+            });
+        }
+    };
 }
 </script>
