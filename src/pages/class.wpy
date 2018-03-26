@@ -58,7 +58,7 @@
             top: 8rpx;
         }
         .info {
-            color: #909399;
+            color: #fff;
         }
         .success {
             color: #fff;
@@ -87,14 +87,28 @@
                         <view class="week">{{item.week}}</view>
                     </view>
                     <view class="class-name-container">
-                        <view class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:{{class.type==='已上'?'#8c8c8c':'#95de64'}}" wx:for-index="classIndex" wx:key="index">
+
+                        <view wx:if="{{class.type==='已上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#8c8c8c" wx:for-index="classIndex" wx:key="index">
                             <view>{{class.timeRange}}</view>
-                            <view class="type info" wx:if="{class.type == '已上'}">{{class.type}}</view>
-                            <view class="type success" wx:if="{class.type == '待上'}">{{class.type}}</view>
+                            <view class="type info">{{class.type}}</view>
                             <view>{{class.location}}</view>
                             <view>{{class.lessonName}}</view>
-                            <button wx:if="{{class.type == '待上'}}" class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">请假</button>
-                            <button wx:if="{{class.type == '请假'}}" class="danger" @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})">已请假</button>
+                        </view>
+
+                        <view wx:if="{{class.type==='待上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#95de64" wx:for-index="classIndex" wx:key="index">
+                            <view>{{class.timeRange}}</view>
+                            <view class="type success">{{class.type}}</view>
+                            <view>{{class.location}}</view>
+                            <view>{{class.lessonName}}</view>
+                            <button class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">请假</button>
+                        </view>
+
+                        <view wx:if="{{class.type==='请假'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#ffa39e" wx:for-index="classIndex" wx:key="index">
+                            <view>{{class.timeRange}}</view>
+                            <view class="type info">{{class.type}}</view>
+                            <view>{{class.location}}</view>
+                            <view>{{class.lessonName}}</view>
+                            <button class="danger" @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})">已请假</button>
                         </view>
                     </view>
                 </view>
