@@ -221,7 +221,7 @@ export default class ClassDetail extends wepy.page {
     getClass() {
         const student = wx.getStorageSync('student');
         const openid = wx.getStorageSync('openid');
-        const startDate = this.addMonth(new Date(), -this.cutCount);
+        const startDate = this.addMonth(new Date(), this.cutCount);
         const endDate = this.addMonth(new Date(), this.addCount);
         const that = this;
         wx.request({
