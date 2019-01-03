@@ -12,70 +12,74 @@
 </style>
 
 <script>
-import wepy from 'wepy';
+import wepy from "wepy";
 
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index',
-      'pages/class',
-      'pages/feedback',
-      'pages/center',
-      'pages/selectStudent',
-      'pages/calendar',
-      'pages/detail'
+      "pages/index",
+      "pages/class",
+      "pages/feedback",
+      "pages/center",
+      "pages/selectStudent",
+      "pages/calendar",
+      "pages/detail"
     ],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      backgroundTextStyle: "light",
+      navigationBarBackgroundColor: "#fff",
+      navigationBarTitleText: "WeChat",
+      navigationBarTextStyle: "black"
     },
     tabBar: {
       list: [
         {
-          pagePath: 'pages/center',
-          text: '统计',
-          iconPath: 'pages/img/t.png',
-          selectedIconPath: 'pages/img/thl.png'
+          pagePath: "pages/center",
+          text: "统计",
+          iconPath: "pages/img/t.png",
+          selectedIconPath: "pages/img/thl.png"
         },
         {
-          pagePath: 'pages/class',
-          text: '课程',
-          iconPath: 'pages/img/c.png',
-          selectedIconPath: 'pages/img/chl.png'
+          pagePath: "pages/class",
+          text: "课程",
+          iconPath: "pages/img/c.png",
+          selectedIconPath: "pages/img/chl.png"
         },
         {
-          pagePath: 'pages/feedback',
-          text: '反馈',
-          iconPath: 'pages/img/f.png',
-          selectedIconPath: 'pages/img/fhl.png'
+          pagePath: "pages/feedback",
+          text: "反馈",
+          iconPath: "pages/img/f.png",
+          selectedIconPath: "pages/img/fhl.png"
         }
       ]
     }
   };
   customData = {
     phone: 11111111111,
-    userName: 'Yui'
+    userName: "Yui"
   };
   onLaunch() {
     wx.login({
       success: function(res) {
+        console.log(res);
+
         if (res.code) {
           wx.request({
-            url: 'https://back.yuiyu.cn/wx/login/getOpenid',
+            url: "https://back.yuiyu.cn/wx/login/getOpenid",
             data: {
               code: res.code
             },
             success: function(res) {
-              console.log('成功获取openId');
+              console.log("成功获取openId");
+              console.log(res);
+
               if (res.data.ok) {
-                wx.setStorageSync('openid', res.data.openid);
+                wx.setStorageSync("openid", res.data.openid);
               }
             }
           });
         } else {
-          console.log('获取用户登录态失败！' + res.errMsg);
+          console.log("获取用户登录态失败！" + res.errMsg);
         }
       }
     });
