@@ -11,6 +11,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "easydate.js": "^1.1.0",
+    "manba": "^1.2.8",
+    "moment": "^2.24.0",
     "wepy": "^1.7.1",
     "wepy-async-function": "^1.4.4",
     "wepy-calendar": "0.0.8",

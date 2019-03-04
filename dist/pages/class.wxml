@@ -1,42 +1,39 @@
 
-    <view class="class">
-        <view  wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
-            <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
-                <view class="month" data-month="{{classInfo.month}}">
-                    {{classInfo.month}}
-                </view>
-                <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
-                    <view class="time-container">
-                        <view class="day">{{item.day}}</view>
-                        <view class="week">{{item.week}}</view>
-                    </view>
-                    <view class="class-name-container">
-
-                        <view wx:if="{{class.type==='已上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#8c8c8c" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type info">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                        </view>
-
-                        <view wx:if="{{class.type==='待上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#95de64" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type success">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                            <button class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">请假</button>
-                        </view>
-
-                        <view wx:if="{{class.type==='请假'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#ffa39e" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type info">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                            <button class="danger" catchtap="cancleClass" data-wpycancleclass-a="{{monthIndex}}" data-wpycancleclass-b="{{dayIndex}}" data-wpycancleclass-c="{{classIndex}}">已请假</button>
-                        </view>
-                    </view>
-                </view>
+  <view class="class">
+    <view  wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
+      <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
+        <view class="month" data-month="{{classInfo.month}}">{{classInfo.month}}</view>
+        <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
+          <view class="time-container">
+            <view class="day">{{item.day}}</view>
+            <view class="week">{{item.week}}</view>
+          </view>
+          <view class="class-name-container">
+            <view wx:if="{{class.type==='已上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#8c8c8c" wx:for-index="classIndex" wx:key="index">
+              <view>{{class.timeRange}}</view>
+              <view class="type info">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
             </view>
+
+            <view wx:if="{{class.type==='待上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#95de64" wx:for-index="classIndex" wx:key="index">
+              <view>{{class.timeRange}}</view>
+              <view class="type success">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
+              <button class="danger" catchtap="selectClass" data-wpyselectclass-a="{{monthIndex}}" data-wpyselectclass-b="{{dayIndex}}" data-wpyselectclass-c="{{classIndex}}">请假</button>
+            </view>
+
+            <view wx:if="{{class.type==='请假'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#ffa39e" wx:for-index="classIndex" wx:key="index">
+              <view>{{class.timeRange}}</view>
+              <view class="type info">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
+              <button class="danger" catchtap="cancleClass" data-wpycancleclass-a="{{monthIndex}}" data-wpycancleclass-b="{{dayIndex}}" data-wpycancleclass-c="{{classIndex}}">已请假</button>
+            </view>
+          </view>
         </view>
-        <view  wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+      </view>
     </view>
+    <view  wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+  </view>

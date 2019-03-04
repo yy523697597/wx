@@ -75,52 +75,97 @@
 }
 </style>
 <template >
-    <view class='class'>
-        <view wx:if="{{allClass.length>0}}" scroll-y bindscrolltoupper="upper" bindscrolltolower="lower">
-            <view class="schedule-container" wx:for="{{allClass}}" wx:key="index" wx:for-item="classInfo" wx:for-index="monthIndex">
-                <view class="month" data-month="{{classInfo.month}}">
-                    {{classInfo.month}}
-                </view>
-                <view class="detail-container" wx:for="{{classInfo.detail}}" wx:for-index="dayIndex" wx:key="index">
-                    <view class="time-container">
-                        <view class="day">{{item.day}}</view>
-                        <view class="week">{{item.week}}</view>
-                    </view>
-                    <view class="class-name-container">
-
-                        <view wx:if="{{class.type==='已上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#8c8c8c" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type info">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                        </view>
-
-                        <view wx:if="{{class.type==='待上'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#95de64" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type success">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                            <button class="danger" @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})">请假</button>
-                        </view>
-
-                        <view wx:if="{{class.type==='请假'}}" class="class-name" wx:for="{{item.record}}" wx:for-item="class" style="background-color:#ffa39e" wx:for-index="classIndex" wx:key="index">
-                            <view>{{class.timeRange}}</view>
-                            <view class="type info">{{class.type}}</view>
-                            <view>{{class.location}}</view>
-                            <view>{{class.lessonName}}</view>
-                            <button class="danger" @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})">已请假</button>
-                        </view>
-                    </view>
-                </view>
+  <view class="class">
+    <view
+      wx:if="{{allClass.length>0}}"
+      scroll-y
+      bindscrolltoupper="upper"
+      bindscrolltolower="lower"
+    >
+      <view
+        class="schedule-container"
+        wx:for="{{allClass}}"
+        wx:key="index"
+        wx:for-item="classInfo"
+        wx:for-index="monthIndex"
+      >
+        <view class="month" data-month="{{classInfo.month}}">{{classInfo.month}}</view>
+        <view
+          class="detail-container"
+          wx:for="{{classInfo.detail}}"
+          wx:for-index="dayIndex"
+          wx:key="index"
+        >
+          <view class="time-container">
+            <view class="day">{{item.day}}</view>
+            <view class="week">{{item.week}}</view>
+          </view>
+          <view class="class-name-container">
+            <view
+              wx:if="{{class.type==='已上'}}"
+              class="class-name"
+              wx:for="{{item.record}}"
+              wx:for-item="class"
+              style="background-color:#8c8c8c"
+              wx:for-index="classIndex"
+              wx:key="index"
+            >
+              <view>{{class.timeRange}}</view>
+              <view class="type info">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
             </view>
+
+            <view
+              wx:if="{{class.type==='待上'}}"
+              class="class-name"
+              wx:for="{{item.record}}"
+              wx:for-item="class"
+              style="background-color:#95de64"
+              wx:for-index="classIndex"
+              wx:key="index"
+            >
+              <view>{{class.timeRange}}</view>
+              <view class="type success">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
+              <button
+                class="danger"
+                @tap.stop="selectClass({{monthIndex}},{{dayIndex}},{{classIndex}})"
+              >请假</button>
+            </view>
+
+            <view
+              wx:if="{{class.type==='请假'}}"
+              class="class-name"
+              wx:for="{{item.record}}"
+              wx:for-item="class"
+              style="background-color:#ffa39e"
+              wx:for-index="classIndex"
+              wx:key="index"
+            >
+              <view>{{class.timeRange}}</view>
+              <view class="type info">{{class.type}}</view>
+              <view>{{class.location}}</view>
+              <view>{{class.lessonName}}</view>
+              <button
+                class="danger"
+                @tap.stop="cancleClass({{monthIndex}},{{dayIndex}},{{classIndex}})"
+              >已请假</button>
+            </view>
+          </view>
         </view>
-        <view wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+      </view>
     </view>
-    </view>
+    <view wx:if="{{allClass.length==0}}" class="no-class">您还没有选课哟</view>
+  </view>
 </template>
 
 <script>
 import wepy from "wepy";
+import moment from "moment";
+import "moment/locale/zh-cn";
+moment.locale("zh-cn");
 
 export default class ClassDetail extends wepy.page {
   config = {
@@ -131,8 +176,8 @@ export default class ClassDetail extends wepy.page {
   data = {
     userName: null,
     allClass: [],
-    addCount: 1,
-    cutCount: 1,
+    addCount: 2,
+    cutCount: 0,
     upHasMore: true,
     downHasMore: true
   };
@@ -143,7 +188,7 @@ export default class ClassDetail extends wepy.page {
   // 下拉添加更多原来的上课记录
   onPullDownRefresh() {
     if (this.upHasMore) {
-      this.cutCount -= 3;
+      this.cutCount += 3;
       this.$apply();
       this.getClass();
     } else {
@@ -182,10 +227,12 @@ export default class ClassDetail extends wepy.page {
     var y = nd.getFullYear();
     var m = nd.getMonth() + 1;
     var d = nd.getDate();
+    console.log(m);
 
     if (m <= 9) m = "0" + m;
     if (d <= 9) d = "0" + d;
     var cdate = y + "-" + m;
+    console.log(cdate);
 
     return cdate;
   }
@@ -207,8 +254,20 @@ export default class ClassDetail extends wepy.page {
   getClass() {
     const student = wx.getStorageSync("student");
     const openid = wx.getStorageSync("openid");
-    const startDate = this.addMonth(new Date(), this.cutCount);
-    const endDate = this.addMonth(new Date(), this.addCount);
+
+    let month = moment().month() + 1;
+    console.log(month);
+    const startDate = moment()
+      .subtract(this.cutCount, "months")
+      .format("YYYY-MM");
+    const endDate = moment()
+      .add(this.addCount, "months")
+      .format("YYYY-MM");
+    // let now = new Date();
+    // const startDate = this.addMonth(now, this.cutCount);
+    // const endDate = this.addMonth(now, this.addCount);
+    console.log(startDate, endDate);
+
     const that = this;
 
     wx.request({
