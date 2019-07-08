@@ -271,7 +271,7 @@ export default class ClassDetail extends wepy.page {
     const that = this;
 
     wx.request({
-      url: "https://back.yuiyu.cn/wx/record/index",
+      url: "https://chocolate.wuxin.ren/wx/record/index",
       data: {
         studentId: student.id, //学生id
         startMonth: startDate, //查询的开始日期
@@ -309,7 +309,7 @@ export default class ClassDetail extends wepy.page {
             const id =
               that.allClass[monthIndex].detail[dayIndex].record[classIndex].id;
             wx.request({
-              url: "https://back.yuiyu.cn/wx/record/leave",
+              url: "https://chocolate.wuxin.ren/wx/record/leave",
               data: {
                 id: id,
                 openid: openid

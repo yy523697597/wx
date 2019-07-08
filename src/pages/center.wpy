@@ -151,7 +151,7 @@ export default class Center extends wepy.page {
     const openid = wx.getStorageSync('openid');
 
     wx.request({
-      url: 'https://back.yuiyu.cn/wx/student/stat',
+      url: 'https://chocolate.wuxin.ren/wx/student/stat',
       data: {
         studentId: student.id,
         openid: openid

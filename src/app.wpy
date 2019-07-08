@@ -65,16 +65,19 @@ export default class extends wepy.app {
 
         if (res.code) {
           wx.request({
-            url: "https://back.yuiyu.cn/wx/login/getOpenid",
+            url: "https://chocolate.wuxin.ren/wx/login/getOpenid",
             data: {
               code: res.code
             },
             success: function(res) {
               console.log("成功获取openId");
-              console.log(res);
+              console.log(res.data);
 
               if (res.data.ok) {
                 wx.setStorageSync("openid", res.data.openid);
+
+                const openid = wx.getStorageSync("openid");
+                console.log(openid);
               }
             }
           });

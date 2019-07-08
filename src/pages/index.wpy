@@ -122,8 +122,10 @@ export default class Index extends wepy.page {
   getLogin() {
     const that = this;
     const openid = wx.getStorageSync("openid");
+    console.log(openid);
+    
     wx.request({
-      url: "https://back.yuiyu.cn/wx/login/islogin",
+      url: "https://chocolate.wuxin.ren/wx/login/islogin",
       data: {
         openid: openid
       },
@@ -150,7 +152,7 @@ export default class Index extends wepy.page {
     // 请求首页图片
     const that = this;
     wx.request({
-      url: "https://back.yuiyu.cn/wx/home/pics",
+      url: "https://chocolate.wuxin.ren/wx/home/pics",
       data: null,
       success: function(res) {
         console.log(res.data);
@@ -188,7 +190,7 @@ export default class Index extends wepy.page {
         console.log(openid);
         // 获取验证码`
         wx.request({
-          url: "https://back.yuiyu.cn/wx/login/verify",
+          url: "https://chocolate.wuxin.ren/wx/login/verify",
           data: {
             phone: this.userPhone,
             code: this.userVali,
@@ -250,7 +252,7 @@ export default class Index extends wepy.page {
         that.valiColor = "#ccc";
         that.valiText = "已发送";
         wx.request({
-          url: "https://back.yuiyu.cn/wx/login/code",
+          url: "https://chocolate.wuxin.ren/wx/login/code",
           data: {
             phone: that.userPhone
           },

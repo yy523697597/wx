@@ -81,7 +81,7 @@ export default class Feedback extends wepy.page {
     const student = wx.getStorageSync('student');
     const that = this;
     wx.request({
-      url: 'https://back.yuiyu.cn/wx/feedback/index',
+      url: 'https://chocolate.wuxin.ren/wx/feedback/index',
       data: {
         openid: openid,
         // openid: 'o2fPa4rbL1j8Gp0QlqBDzl3R40vA',
@@ -126,7 +126,7 @@ export default class Feedback extends wepy.page {
             if (res.confirm) {
               const openid = wx.getStorageSync('openid');
               wx.request({
-                url: 'https://back.yuiyu.cn/wx/feedback/add',
+                url: 'https://chocolate.wuxin.ren/wx/feedback/add',
                 data: {
                   studentId: wx.getStorageSync('student').id, //学生id
                   content: that.info, //反馈内容,
